@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Diner Grill Chicago | Open 24 Hours. Built in 1937.</title>
+<meta name="description" content="Chicago's legendary 24-hour diner at 1635 W Irving Park Rd, Lake View. Built from two streetcars in 1937. Open 24/7."/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Diner Grill","telephone":"(773) 525-9555","address":{"@type":"PostalAddress","streetAddress":"1635 W Irving Park Rd","addressLocality":"Chicago","addressRegion":"IL","postalCode":"60613"},"openingHours":"Mo-Su 00:00-24:00","priceRange":"$","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.6","reviewCount":"1076"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   RESET & VARIABLES
+══════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF6EC;--warm:#FAF0DC;--gold:#D4922A;--gold2:#F2B84B;
+  --red:#C0392B;--red2:#E74C3C;--charcoal:#2C2C2C;--mid:#5A4A3A;
+  --light:#F9F2E8;--white:#FFFFFF;--shadow:rgba(44,44,44,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--charcoal);overflow-x:hidden;cursor:none}
+
+/* ══════════════════════════════════════════════
+   CURSOR
+══════════════════════════════════════════════ */
+.cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width .2s,height .2s}
+.cursor-ring{width:44px;height:44px;border:2px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.4}
+
+/* ══════════════════════════════════════════════
+   LOADER
+══════════════════════════════════════════════ */
+#loader{position:fixed;inset:0;background:var(--cream);z-index:9000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+.loader-logo{font-family:'Bebas Neue';font-size:72px;color:var(--charcoal);letter-spacing:4px}
+.loader-logo span{color:var(--gold)}
+.loader-bar-wrap{width:240px;height:2px;background:rgba(44,44,44,.1);border-radius:2px;overflow:hidden}
+.loader-bar{height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;border-radius:2px}
+.loader-sub{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(44,44,44,.35)}
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:22px 60px;display:flex;justify-content:space-between;align-items:center;transition:all .5s cubic-bezier(.4,0,.2,1)}
+nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-shadow:0 2px 40px rgba(44,44,44,.1);padding:14px 60px}
+.nav-logo{font-family:'Bebas Neue';font-size:30px;color:var(--charcoal);letter-spacing:3px;text-decoration:none;cursor:pointer}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--charcoal);text-decoration:none;position:relative;transition:color .3s;cursor:pointer}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s ease}
+.nav-links a:hover::after,.nav-links a.active-nav::after{width:100%}
+.nav-links a.active-nav{color:var(--gold)}
+.nav-cta{background:var(--red)!important;color:var(--white)!important;padding:11px 24px!important;border-radius:5px!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--red2)!important}
+
+/* ══════════════════════════════════════════════
+   SECTIONS SYSTEM
+══════════════════════════════════════════════ */
+.page-section{display:none;min-height:100vh}
+.page-section.active{display:block}
+
+/* ══════════════════════════════════════════════
+   STICKY ORDER BTN
+══════════════════════════════════════════════ */
+#sticky-order{position:fixed;bottom:36px;right:36px;z-index:900;background:var(--red);color:var(--white);font-weight:800;padding:15px 30px;border-radius:100px;box-shadow:0 8px 32px rgba(192,57,43,.5);text-decoration:none;font-size:14px;letter-spacing:.5px;opacity:0;transform:translateY(30px) scale(.9);transition:all .4s cubic-bezier(.34,1.56,.64,1);cursor:pointer;border:none}
+#sticky-order.visible{opacity:1;transform:translateY(0) scale(1)}
+#sticky-order:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 16px 48px rgba(192,57,43,.6)}
+
+/* ══════════════════════════════════════════════
+   SHARED UTILITIES
+══════════════════════════════════════════════ */
+.section-label{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.section-title{font-family:'Playfair Display';font-size:clamp(32px,5vw,60px);font-weight:900;color:var(--charcoal);line-height:1.05;margin-bottom:20px}
+.section-body{font-size:16px;line-height:1.85;color:var(--mid);max-width:560px}
+.btn-primary{background:var(--red);color:var(--white);padding:17px 46px;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:.5px;transition:all .3s;box-shadow:0 8px 30px rgba(192,57,43,.35);display:inline-block;cursor:pointer;border:none}
+.btn-primary:hover{background:var(--red2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(192,57,43,.45)}
+.btn-ghost{background:transparent;border:2px solid var(--charcoal);color:var(--charcoal);padding:15px 40px;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:.5px;transition:all .3s;display:inline-block;cursor:pointer}
+.btn-ghost:hover{background:var(--charcoal);color:var(--cream);transform:translateY(-3px)}
+.btn-gold{background:var(--gold);color:var(--white);padding:16px 44px;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:.5px;transition:all .3s;box-shadow:0 8px 30px rgba(212,146,42,.4);display:inline-block;cursor:pointer;border:none}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-3px)}
+.open-dot{width:10px;height:10px;border-radius:50%;background:#27AE60;display:inline-block;animation:pulse-green 2s infinite}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(39,174,96,.5)}50%{box-shadow:0 0 0 8px rgba(39,174,96,0)}}
+.marquee-section{background:var(--gold);padding:22px 0;overflow:hidden}
+.marquee-track{display:flex;gap:48px;animation:marquee-run 22s linear infinite;white-space:nowrap}
+.marquee-track span{font-family:'Bebas Neue';font-size:20px;letter-spacing:3px;color:var(--white);flex-shrink:0}
+.marquee-track span.dot{color:rgba(255,255,255,.4)}
+@keyframes marquee-run{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.reveal{opacity:0;transform:translateY(60px)}
+.reveal-left{opacity:0;transform:translateX(-80px)}
+.reveal-right{opacity:0;transform:translateX(80px)}
+.reveal-scale{opacity:0;transform:scale(.88)}
+
+/* ══════════════════════════════════════════════
+   ① HOME PAGE
+══════════════════════════════════════════════ */
+#home-hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#three-canvas{position:absolute;inset:0;z-index:0}
+.hero-bg{position:absolute;inset:0;z-index:1;background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1800&q=80');background-size:cover;background-position:center;filter:brightness(.12) saturate(.5)}
+.hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(135deg,rgba(212,146,42,.12) 0%,rgba(253,246,236,.86) 100%)}
+.hero-content{position:relative;z-index:3;text-align:center;max-width:960px;padding:0 32px}
+.hero-chip{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.85);border:1px solid rgba(212,146,42,.4);padding:8px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:32px;box-shadow:0 4px 24px rgba(212,146,42,.15);opacity:0;transform:translateY(20px)}
+.hero-title{font-family:'Playfair Display';font-size:clamp(64px,12vw,140px);font-weight:900;line-height:.9;color:var(--charcoal);margin-bottom:10px;opacity:0;transform:translateY(50px)}
+.hero-title .gold{color:var(--gold)}
+.hero-tagline{font-family:'Bebas Neue';font-size:clamp(16px,2.4vw,26px);letter-spacing:6px;color:var(--mid);margin-bottom:40px;opacity:0;transform:translateY(30px)}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(30px)}
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0}
+.scroll-hint span{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700}
+.scroll-line{width:1px;height:64px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scroll-pulse 2s infinite}
+@keyframes scroll-pulse{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.5);opacity:.4}}
+#stats{background:var(--charcoal);padding:36px 60px;display:flex;justify-content:center;gap:80px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:'Bebas Neue';font-size:48px;color:var(--gold2);line-height:1}
+.stat-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:5px}
+#story-wrap{padding:130px 60px;background:var(--cream);overflow:hidden}
+#story-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;max-width:1280px;margin:0 auto}
+.story-imgs{position:relative;height:560px}
+.img-main{width:74%;height:82%;object-fit:cover;border-radius:20px;position:absolute;top:0;left:0;box-shadow:0 40px 100px rgba(44,44,44,.2);will-change:transform}
+.img-inset{width:52%;height:50%;object-fit:cover;border-radius:14px;position:absolute;bottom:0;right:0;border:6px solid var(--cream);box-shadow:0 20px 60px rgba(44,44,44,.18);will-change:transform}
+.est-badge{position:absolute;top:42%;left:65%;background:var(--gold);color:var(--white);font-family:'Bebas Neue';font-size:14px;letter-spacing:2px;padding:10px 18px;border-radius:5px;box-shadow:0 8px 28px rgba(212,146,42,.45)}
+.fire-note{margin-top:28px;padding:20px 24px;background:rgba(192,57,43,.06);border-left:3px solid var(--red);border-radius:0 8px 8px 0;font-size:14px;line-height:1.8;color:var(--mid)}
+.fire-note strong{color:var(--red)}
+.menu-preview-section{padding:130px 60px;background:var(--light)}
+.menu-preview-inner{max-width:1280px;margin:0 auto}
+.menu-header-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;flex-wrap:wrap;gap:24px}
+.menu-preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.menu-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:0 4px 28px var(--shadow);transition:all .4s cubic-bezier(.34,1.56,.64,1);cursor:pointer;will-change:transform}
+.menu-card:hover{transform:translateY(-10px) scale(1.02) rotateX(3deg);box-shadow:0 24px 64px rgba(44,44,44,.17)}
+.menu-card-img{width:100%;height:200px;object-fit:cover;transition:transform .6s ease}
+.menu-card:hover .menu-card-img{transform:scale(1.08)}
+.menu-card-body{padding:22px}
+.menu-card-name{font-family:'Playfair Display';font-weight:700;font-size:17px;color:var(--charcoal);margin-bottom:6px}
+.menu-card-desc{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:14px}
+.menu-card-price{font-size:19px;font-weight:700;color:var(--gold)}
+.feat-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:rgba(192,57,43,.1);color:var(--red);margin-left:8px}
+#slinger-section{display:grid;grid-template-columns:1fr 1fr;min-height:640px;overflow:hidden}
+.slinger-img-wrap{overflow:hidden}
+.slinger-img{width:100%;height:100%;object-fit:cover;filter:brightness(.85) saturate(1.2);transition:transform 9s ease}
+#slinger-section:hover .slinger-img{transform:scale(1.06)}
+.slinger-content{background:var(--charcoal);padding:90px 72px;display:flex;flex-direction:column;justify-content:center}
+.slinger-eyebrow{font-size:11px;letter-spacing:4px;font-weight:700;text-transform:uppercase;color:var(--gold2);margin-bottom:22px}
+.slinger-title{font-family:'Bebas Neue';font-size:clamp(64px,9vw,108px);color:var(--white);line-height:.92;margin-bottom:26px;letter-spacing:2px}
+.slinger-desc{font-size:16px;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:36px;max-width:380px}
+.slinger-price{font-family:'Bebas Neue';font-size:52px;color:var(--gold2);letter-spacing:2px;margin-bottom:36px}
+#gallery-section{padding:130px 0;background:var(--cream);overflow:hidden}
+.gallery-inner{max-width:1280px;margin:0 auto;text-align:center;padding:0 60px;margin-bottom:60px}
+.gallery-3d-wrap{padding:40px 60px}
+.gallery-row{display:flex;gap:20px}
+.gal-img{flex:0 0 calc(33.33% - 14px);height:300px;object-fit:cover;border-radius:14px;box-shadow:0 12px 40px var(--shadow);transition:all .5s cubic-bezier(.34,1.56,.64,1);cursor:pointer;will-change:transform}
+.gal-img:hover{transform:translateY(-12px) rotateX(4deg) rotateY(-4deg) scale(1.04);box-shadow:0 32px 80px rgba(44,44,44,.22)}
+#reviews-section{padding:130px 60px;background:linear-gradient(135deg,var(--warm) 0%,var(--cream) 100%)}
+.reviews-inner{max-width:1280px;margin:0 auto}
+.reviews-header{text-align:center;margin-bottom:64px}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.review-card{background:var(--white);border-radius:18px;padding:34px;box-shadow:0 4px 24px var(--shadow);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.review-card:hover{transform:translateY(-8px) rotateX(2deg);box-shadow:0 20px 60px rgba(44,44,44,.15)}
+.review-stars{font-size:17px;color:var(--gold2);margin-bottom:16px}
+.review-text{font-size:15px;line-height:1.8;color:var(--mid);font-style:italic;margin-bottom:22px}
+.review-author{font-size:13px;font-weight:700;color:var(--charcoal)}
+.review-date{font-size:12px;color:rgba(90,74,58,.45);margin-top:2px}
+.rating-block{text-align:center;margin-top:60px;display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap}
+.rating-big{font-family:'Bebas Neue';font-size:90px;color:var(--charcoal);line-height:1}
+#cta-section{background:var(--red);padding:120px 60px;text-align:center;position:relative;overflow:hidden}
+#cta-section::before{content:'ORDER';font-family:'Bebas Neue';font-size:320px;color:rgba(255,255,255,.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);letter-spacing:10px;white-space:nowrap;pointer-events:none}
+.cta-inner{position:relative;z-index:1}
+.cta-title{font-family:'Bebas Neue';font-size:clamp(52px,9vw,96px);color:var(--white);letter-spacing:4px;margin-bottom:18px}
+.cta-sub{font-size:17px;color:rgba(255,255,255,.75);margin-bottom:52px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7}
+.btn-white{background:var(--white);color:var(--red);padding:18px 56px;border-radius:6px;font-size:16px;font-weight:800;text-decoration:none;letter-spacing:1px;display:inline-block;transition:all .3s;box-shadow:0 8px 32px rgba(0,0,0,.2);cursor:pointer;border:none}
+.btn-white:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 20px 56px rgba(0,0,0,.28)}
+.delivery-links{margin-top:36px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.delivery-links a{color:rgba(255,255,255,.7);font-size:13px;text-decoration:none;letter-spacing:1px;font-weight:600;transition:color .2s;cursor:pointer}
+.delivery-links a:hover{color:var(--white)}
+#email-section{background:var(--charcoal);padding:90px 60px;text-align:center}
+.capture-inner{max-width:560px;margin:0 auto}
+.capture-title{font-family:'Playfair Display';font-size:38px;color:var(--white);margin-bottom:14px}
+.capture-sub{font-size:15px;color:rgba(255,255,255,.55);margin-bottom:32px;line-height:1.7}
+.capture-offer{display:inline-block;background:rgba(212,146,42,.15);border:1px solid var(--gold2);border-radius:8px;padding:10px 22px;font-size:13px;color:var(--gold2);margin-bottom:30px;font-weight:600}
+.email-form{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.email-form input{flex:1;min-width:220px;padding:15px 20px;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:var(--white);font-size:14px;outline:none;transition:border-color .3s;font-family:'Inter'}
+.email-form input::placeholder{color:rgba(255,255,255,.35)}
+.email-form input:focus{border-color:var(--gold2)}
+.email-form button{background:var(--gold);color:var(--white);padding:15px 30px;border-radius:6px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;font-family:'Inter'}
+.email-form button:hover{background:var(--gold2);transform:translateY(-2px)}
+
+/* ══════════════════════════════════════════════
+   ② MENU PAGE
+══════════════════════════════════════════════ */
+.page-hero{height:52vh;min-height:400px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.page-hero canvas{position:absolute;inset:0;z-index:0}
+.page-hero-bg{position:absolute;inset:0;z-index:1;background-size:cover;background-position:center;filter:brightness(.14) saturate(.5)}
+.page-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(135deg,rgba(212,146,42,.1),rgba(253,246,236,.88))}
+.page-hero-content{position:relative;z-index:3;text-align:center;padding-top:90px}
+.page-label{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.page-title{font-family:'Playfair Display';font-size:clamp(52px,9vw,90px);font-weight:900;color:var(--charcoal);line-height:.95}
+.menu-body{padding:100px 60px;max-width:1280px;margin:0 auto}
+.menu-controls{display:flex;align-items:center;gap:12px;margin-bottom:64px;flex-wrap:wrap}
+.tab-btn{padding:11px 26px;border-radius:100px;border:2px solid rgba(44,44,44,.15);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--white);color:var(--mid);transition:all .25s;font-family:'Inter'}
+.tab-btn.active,.tab-btn:hover{background:var(--charcoal);color:var(--white);border-color:var(--charcoal)}
+.menu-full-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.menu-note{background:rgba(212,146,42,.08);border:1px solid rgba(212,146,42,.25);border-radius:12px;padding:20px 26px;margin-bottom:48px;font-size:14px;color:var(--mid);line-height:1.7}
+.menu-note strong{color:var(--gold)}
+.no-img-card{background:var(--white);border-radius:14px;padding:22px 26px;box-shadow:0 4px 24px var(--shadow);display:flex;justify-content:space-between;align-items:center;transition:all .3s;border-left:4px solid transparent;margin-bottom:12px}
+.no-img-card:hover{border-left-color:var(--gold);transform:translateX(6px)}
+.no-img-name{font-family:'Playfair Display';font-weight:700;font-size:16px;color:var(--charcoal);margin-bottom:4px}
+.no-img-desc{font-size:12px;color:var(--mid)}
+.no-img-price{font-size:18px;font-weight:700;color:var(--gold);white-space:nowrap;margin-left:20px}
+
+/* ══════════════════════════════════════════════
+   ③ STORY PAGE
+══════════════════════════════════════════════ */
+.story-hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.story-hero canvas{position:absolute;inset:0;z-index:0}
+.story-hero-bg{position:absolute;inset:0;z-index:1;background-image:url('https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1800&q=80');background-size:cover;background-position:center;filter:brightness(.2) saturate(.5)}
+.story-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(253,246,236,.75) 0%,rgba(253,246,236,.3) 50%,rgba(253,246,236,.92) 100%)}
+.story-hero-year{font-family:'Bebas Neue';font-size:clamp(100px,20vw,220px);color:rgba(212,146,42,.15);line-height:1;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;letter-spacing:-4px}
+.story-hero-content{position:relative;z-index:3;text-align:center;max-width:860px;padding:80px 32px 0}
+.story-eyebrow{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;opacity:0;transform:translateY(20px)}
+.story-hero-title{font-family:'Playfair Display';font-size:clamp(44px,8vw,88px);font-weight:900;color:var(--charcoal);line-height:1.05;opacity:0;transform:translateY(40px);margin-bottom:24px}
+.story-hero-sub{font-size:17px;color:var(--mid);line-height:1.8;max-width:560px;margin:0 auto;opacity:0;transform:translateY(30px)}
+#timeline{padding:120px 60px;background:var(--cream);max-width:1200px;margin:0 auto}
+.tl-header-label{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
+.tl-header-title{font-family:'Playfair Display';font-size:clamp(32px,5vw,56px);font-weight:900;color:var(--charcoal);text-align:center;margin-bottom:80px}
+.tl-item{display:grid;grid-template-columns:1fr 80px 1fr;align-items:start;margin-bottom:0}
+.tl-item:nth-child(odd) .tl-left{text-align:right;padding-right:48px;padding-bottom:80px}
+.tl-item:nth-child(odd) .tl-right{padding-left:48px;padding-bottom:80px;visibility:hidden}
+.tl-item:nth-child(even) .tl-left{visibility:hidden;padding-right:48px;padding-bottom:80px}
+.tl-item:nth-child(even) .tl-right{padding-left:48px;padding-bottom:80px}
+.tl-center{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:20px;height:20px;border-radius:50%;background:var(--gold);border:4px solid var(--cream);box-shadow:0 0 0 4px var(--gold);flex-shrink:0;margin-top:6px;position:relative;z-index:1}
+.tl-line{width:2px;flex:1;background:linear-gradient(to bottom,var(--gold),rgba(212,146,42,.2));min-height:60px}
+.tl-year{font-family:'Bebas Neue';font-size:52px;color:var(--gold);line-height:1;margin-bottom:10px}
+.tl-title{font-family:'Playfair Display';font-size:22px;font-weight:700;color:var(--charcoal);margin-bottom:10px}
+.tl-body{font-size:15px;line-height:1.8;color:var(--mid)}
+.tl-img{width:100%;border-radius:14px;box-shadow:0 16px 48px var(--shadow);margin-top:16px;object-fit:cover;height:220px}
+#fire-section{background:linear-gradient(135deg,#2C1810 0%,#3D1F12 100%);padding:130px 60px;position:relative;overflow:hidden}
+#fire-section::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600&q=60') center/cover;opacity:.08}
+.fire-inner{max-width:860px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.fire-year{font-family:'Bebas Neue';font-size:clamp(100px,18vw,200px);color:rgba(192,57,43,.25);line-height:1;margin-bottom:-40px}
+.fire-title{font-family:'Playfair Display';font-size:clamp(36px,6vw,64px);font-weight:900;color:var(--white);margin-bottom:28px}
+.fire-body{font-size:17px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:40px;max-width:640px;margin-left:auto;margin-right:auto}
+.fire-quote{border-left:3px solid var(--red);padding:20px 32px;text-align:left;background:rgba(192,57,43,.08);border-radius:0 12px 12px 0;font-size:17px;font-style:italic;color:rgba(255,255,255,.8);line-height:1.8;max-width:600px;margin:0 auto}
+#rebirth{padding:130px 60px;background:var(--warm)}
+.rebirth-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.rebirth-imgs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rebirth-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 40px var(--shadow);transition:transform .4s ease}
+.rebirth-img:hover{transform:scale(1.04) rotateZ(-1deg)}
+.rebirth-img:nth-child(2){margin-top:32px}
+
+/* ══════════════════════════════════════════════
+   ④ SPECIALS PAGE
+══════════════════════════════════════════════ */
+.specials-body{padding:100px 60px;max-width:1280px;margin:0 auto}
+.week-badge{display:inline-block;background:var(--gold);color:var(--white);font-family:'Bebas Neue';font-size:14px;letter-spacing:2px;padding:8px 20px;border-radius:100px;margin-top:20px}
+.specials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px;margin-bottom:80px}
+.special-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 4px 28px var(--shadow);transition:all .4s cubic-bezier(.34,1.56,.64,1);cursor:pointer;position:relative}
+.special-card:hover{transform:translateY(-12px) rotateX(3deg) rotateY(-2deg);box-shadow:0 28px 70px rgba(44,44,44,.18)}
+.special-card-img{width:100%;height:240px;object-fit:cover;transition:transform .6s ease}
+.special-card:hover .special-card-img{transform:scale(1.08)}
+.spec-badge{position:absolute;top:16px;left:16px;background:var(--red);color:var(--white);font-family:'Bebas Neue';font-size:13px;letter-spacing:2px;padding:6px 14px;border-radius:100px}
+.spec-badge.gold-badge{background:var(--gold)}
+.spec-badge.dark-badge{background:var(--charcoal)}
+.special-card-body{padding:26px}
+.special-card-day{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.special-card-name{font-family:'Playfair Display';font-weight:700;font-size:20px;color:var(--charcoal);margin-bottom:8px}
+.special-card-desc{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:16px}
+.special-card-footer{display:flex;justify-content:space-between;align-items:center}
+.special-price{font-size:22px;font-weight:700;color:var(--gold)}
+.seasonal-feature{background:var(--charcoal);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;margin-bottom:80px}
+.sf-img{overflow:hidden}
+.sf-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform 8s ease}
+.seasonal-feature:hover .sf-img img{transform:scale(1.06)}
+.sf-content{padding:60px}
+.sf-eyebrow{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:16px}
+.sf-title{font-family:'Bebas Neue';font-size:52px;color:var(--white);letter-spacing:2px;margin-bottom:16px}
+.sf-desc{font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:28px}
+.sf-price{font-family:'Bebas Neue';font-size:40px;color:var(--gold2);letter-spacing:2px;margin-bottom:28px}
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+.ig-item{aspect-ratio:1;overflow:hidden;border-radius:10px;cursor:pointer;position:relative}
+.ig-item img{width:100%;height:100%;object-fit:cover;transition:all .4s ease}
+.ig-item:hover img{transform:scale(1.1) rotate(2deg)}
+.ig-item::after{content:'📸';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(212,146,42,.7);opacity:0;transition:opacity .3s}
+.ig-item:hover::after{opacity:1}
+
+/* ══════════════════════════════════════════════
+   ⑤ CONTACT PAGE
+══════════════════════════════════════════════ */
+.contact-body{max-width:1280px;margin:0 auto;padding:100px 60px}
+.info-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:80px}
+.info-card{background:var(--white);border-radius:18px;padding:32px 28px;box-shadow:0 4px 24px var(--shadow);text-align:center;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.info-card:hover{transform:translateY(-8px) rotateX(3deg);box-shadow:0 20px 56px rgba(44,44,44,.14)}
+.info-card-icon{font-size:36px;margin-bottom:14px}
+.info-card-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.info-card-value{font-family:'Playfair Display';font-size:18px;font-weight:700;color:var(--charcoal);line-height:1.4;margin-bottom:6px}
+.info-card-sub{font-size:13px;color:var(--mid);line-height:1.6}
+.map-section{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:start;margin-bottom:80px}
+.map-wrap{border-radius:20px;overflow:hidden;box-shadow:0 24px 70px var(--shadow);height:500px}
+.map-wrap iframe{width:100%;height:100%;border:none}
+.hours-list{list-style:none;margin-bottom:36px}
+.hours-list li{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(44,44,44,.07);font-size:15px;color:var(--mid)}
+.hours-list li .day{font-weight:600;color:var(--charcoal)}
+.hours-list li .time{color:#27AE60;font-weight:700}
+.contact-details{display:flex;flex-direction:column;gap:16px;margin-bottom:32px}
+.contact-row{display:flex;align-items:flex-start;gap:14px}
+.contact-row-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.contact-row-text{font-size:15px;color:var(--mid);line-height:1.6}
+.contact-row-text a{color:var(--gold);text-decoration:none;font-weight:600}
+.directions-btn{display:inline-flex;align-items:center;gap:10px;background:var(--charcoal);color:var(--white);padding:14px 32px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;letter-spacing:.5px;transition:all .3s;margin-top:4px}
+.directions-btn:hover{background:var(--gold);transform:translateY(-2px)}
+.catering-section{background:var(--light);border-radius:24px;padding:60px;margin-bottom:80px}
+.catering-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.contact-form input,.contact-form textarea,.contact-form select{padding:14px 18px;border-radius:8px;border:1px solid rgba(44,44,44,.15);background:var(--white);color:var(--charcoal);font-size:14px;outline:none;transition:border-color .3s;font-family:'Inter';width:100%}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--gold)}
+.contact-form textarea{height:120px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-form button{background:var(--gold);color:var(--white);padding:15px 40px;border-radius:6px;font-size:15px;font-weight:700;border:none;cursor:pointer;letter-spacing:.5px;transition:all .3s;font-family:'Inter';width:100%}
+.contact-form button:hover{background:var(--gold2);transform:translateY(-2px)}
+.nb-card{background:var(--charcoal);border-radius:24px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px}
+.nb-imgs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nb-img{width:100%;height:180px;object-fit:cover;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .4s ease}
+.nb-img:hover{transform:scale(1.04) rotateZ(-1deg)}
+.nb-img:nth-child(2){margin-top:24px}
+.social-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:20px}
+.social-big{display:flex;align-items:center;gap:14px;background:var(--white);border-radius:14px;padding:20px 32px;box-shadow:0 4px 24px var(--shadow);text-decoration:none;color:var(--charcoal);font-weight:700;font-size:15px;transition:all .3s;min-width:180px;justify-content:center}
+.social-big:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(44,44,44,.14)}
+.social-big span{font-size:28px}
+
+/* ══════════════════════════════════════════════
+   ⑥ ORDER PAGE
+══════════════════════════════════════════════ */
+.order-hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.order-hero canvas{position:absolute;inset:0;z-index:0}
+.order-hero-bg{position:absolute;inset:0;z-index:1;background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1800&q=80');background-size:cover;background-position:center;filter:brightness(.1) saturate(.5)}
+.order-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(253,246,236,.9) 0%,rgba(253,246,236,.7) 50%,rgba(253,246,236,.95) 100%)}
+.order-hero-content{position:relative;z-index:3;text-align:center;padding-top:60px;max-width:900px;padding-left:32px;padding-right:32px}
+.order-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);padding:9px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#27AE60;margin-bottom:28px}
+.order-dot{width:9px;height:9px;border-radius:50%;background:#27AE60;animation:pulse-green 2s infinite}
+.order-title{font-family:'Bebas Neue';font-size:clamp(56px,12vw,130px);color:var(--charcoal);letter-spacing:4px;line-height:.9;margin-bottom:16px}
+.order-title span{color:var(--gold)}
+.order-sub{font-size:18px;color:var(--mid);margin-bottom:48px;line-height:1.7;max-width:540px;margin-left:auto;margin-right:auto}
+.order-time{background:var(--white);border-radius:12px;padding:18px 32px;display:inline-flex;align-items:center;gap:20px;box-shadow:0 8px 32px var(--shadow);margin-bottom:48px;border:1px solid rgba(212,146,42,.2);flex-wrap:wrap;justify-content:center}
+.order-time-item{text-align:center}
+.order-time-value{font-family:'Bebas Neue';font-size:32px;color:var(--charcoal);line-height:1}
+.order-time-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-top:2px}
+.order-time-sep{font-family:'Bebas Neue';font-size:28px;color:var(--gold2);opacity:.4}
+.order-options-section{padding:0 60px 100px;max-width:1280px;margin:0 auto}
+.order-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:80px}
+.order-card{border-radius:22px;overflow:hidden;box-shadow:0 8px 40px var(--shadow);transition:all .4s cubic-bezier(.34,1.56,.64,1);cursor:pointer;text-decoration:none;display:block;position:relative}
+.order-card:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 28px 80px rgba(44,44,44,.2)}
+.order-card-img{width:100%;height:240px;object-fit:cover;transition:transform .6s ease}
+.order-card:hover .order-card-img{transform:scale(1.08)}
+.order-card-body{padding:28px;background:var(--white)}
+.order-card-icon{font-size:28px;margin-bottom:10px}
+.order-card-title{font-family:'Bebas Neue';font-size:26px;letter-spacing:2px;color:var(--charcoal);margin-bottom:8px}
+.order-card-desc{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:16px}
+.order-card-cta{display:inline-block;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);border-bottom:2px solid var(--red);padding-bottom:2px}
+.order-card.featured-card .order-card-body{background:var(--charcoal)}
+.order-card.featured-card .order-card-title{color:var(--white)}
+.order-card.featured-card .order-card-desc{color:rgba(255,255,255,.65)}
+.order-card.featured-card .order-card-cta{color:var(--gold2);border-color:var(--gold2)}
+.featured-ribbon{position:absolute;top:16px;right:16px;background:var(--gold);color:var(--white);font-family:'Bebas Neue';font-size:12px;letter-spacing:2px;padding:6px 14px;border-radius:100px}
+.popular-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:80px}
+.pop-item{background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 4px 20px var(--shadow);transition:all .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer}
+.pop-item:hover{transform:translateY(-8px) rotateX(3deg);box-shadow:0 20px 56px rgba(44,44,44,.15)}
+.pop-item-img{width:100%;height:160px;object-fit:cover;transition:transform .5s ease}
+.pop-item:hover .pop-item-img{transform:scale(1.07)}
+.pop-item-body{padding:18px;display:flex;justify-content:space-between;align-items:center}
+.pop-item-name{font-family:'Playfair Display';font-weight:700;font-size:16px;color:var(--charcoal)}
+.pop-item-price{font-size:17px;font-weight:700;color:var(--gold);white-space:nowrap;margin-left:12px}
+.add-btn{width:34px;height:34px;border-radius:50%;background:var(--red);color:var(--white);border:none;font-size:18px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:8px}
+.add-btn:hover{background:var(--red2);transform:scale(1.15) rotate(90deg)}
+.delivery-section{background:var(--charcoal);border-radius:24px;padding:56px;text-align:center;margin-bottom:60px}
+.del-title{font-family:'Bebas Neue';font-size:42px;color:var(--white);letter-spacing:3px;margin-bottom:14px}
+.del-sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:40px}
+.del-partners{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.del-btn{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--white);padding:18px 36px;border-radius:12px;text-decoration:none;font-size:16px;font-weight:700;transition:all .3s}
+.del-btn:hover{background:rgba(255,255,255,.16);transform:translateY(-4px);border-color:var(--gold2)}
+.guarantee{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.guar-item{background:var(--white);border-radius:16px;padding:28px 22px;box-shadow:0 4px 20px var(--shadow);text-align:center;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.guar-item:hover{transform:translateY(-6px);box-shadow:0 16px 44px rgba(44,44,44,.12)}
+.guar-icon{font-size:32px;margin-bottom:12px}
+.guar-title{font-weight:700;font-size:15px;color:var(--charcoal);margin-bottom:6px}
+.guar-desc{font-size:13px;color:var(--mid);line-height:1.6}
+#cart-mini{position:fixed;bottom:36px;left:36px;z-index:900;background:var(--charcoal);color:var(--white);padding:14px 24px;border-radius:100px;box-shadow:0 8px 32px rgba(44,44,44,.4);font-size:14px;font-weight:700;transition:all .4s cubic-bezier(.34,1.56,.64,1);opacity:0;transform:translateY(20px) scale(.9);cursor:pointer;display:flex;align-items:center;gap:10px;border:none}
+#cart-mini.visible{opacity:1;transform:translateY(0) scale(1)}
+#cart-mini:hover{background:var(--red)}
+#cart-count{background:var(--gold);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+.site-footer{background:#1A1A1A;padding:70px 60px 36px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;max-width:1280px;margin:0 auto 56px}
+.footer-logo{font-family:'Bebas Neue';font-size:34px;color:var(--white);letter-spacing:2px;margin-bottom:14px}
+.footer-logo span{color:var(--gold)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,.4);line-height:1.75;margin-bottom:24px}
+.footer-col h4{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.footer-col a{font-size:14px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;cursor:pointer}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:28px;text-align:center;font-size:12px;color:rgba(255,255,255,.25);max-width:1280px;margin:0 auto}
+.social-links{display:flex;gap:12px;margin-top:4px}
+.social-link{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:17px;text-decoration:none;transition:all .25s;color:rgba(255,255,255,.5);cursor:pointer}
+.social-link:hover{background:var(--gold);transform:translateY(-3px)}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:1100px){.menu-preview-grid{grid-template-columns:repeat(2,1fr)}.order-cards{grid-template-columns:1fr 1fr}.guarantee{grid-template-columns:repeat(2,1fr)}.info-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){
+  nav{padding:14px 24px}.nav-links{display:none}
+  #story-grid,.rebirth-inner,.map-section,.catering-inner,.nb-card,#slinger-section{grid-template-columns:1fr}
+  #story-wrap,#gallery-section,#reviews-section,#cta-section,#email-section,#timeline,#fire-section,#rebirth,.menu-body,.specials-body,.contact-body,.order-options-section{padding-left:24px;padding-right:24px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  #stats{gap:32px;padding:24px}
+  .gallery-3d-wrap{padding:20px 24px}
+  .reviews-grid{grid-template-columns:1fr}
+  .ig-grid{grid-template-columns:repeat(3,1fr)}
+  .seasonal-feature{grid-template-columns:1fr}
+  .slinger-content{padding:60px 36px}
+  .story-imgs{height:340px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Diner <span>Grill</span></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="lbar"></div></div>
+  <div class="loader-sub">Chicago Since 1937</div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- STICKY BUTTONS -->
+<button id="sticky-order" onclick="showPage('order')">🍳 Order Now</button>
+<button id="cart-mini" onclick="viewCart()">🛒 Your Order <span id="cart-count">0</span></button>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <a class="nav-logo" onclick="showPage('home')">Diner <span>Grill</span></a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active-nav">Home</a></li>
+    <li><a onclick="showPage('menu')" id="nav-menu">Menu</a></li>
+    <li><a onclick="showPage('story')" id="nav-story">Our Story</a></li>
+    <li><a onclick="showPage('specials')" id="nav-specials">Specials</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Find Us</a></li>
+    <li><a onclick="showPage('order')" id="nav-order" class="nav-cta">Order Online</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     ① HOME
+════════════════════════════════════════════ -->
+<div class="page-section active" id="page-home">
+
+  <section id="home-hero">
+    <canvas id="three-canvas"></canvas>
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-chip"><span class="open-dot"></span> Open Right Now · Irving Park, Chicago</div>
+      <h1 class="hero-title">Diner<br/><span class="gold">Grill</span></h1>
+      <div class="hero-tagline">Open 24 Hours &nbsp;·&nbsp; Built in 1937 &nbsp;·&nbsp; Rebuilt in 2018</div>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('order')">Order Online</button>
+        <button class="btn-ghost" onclick="showPage('menu')">View Menu</button>
+      </div>
+    </div>
+    <div class="scroll-hint" id="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+  </section>
+
+  <div id="stats">
+    <div class="stat-item"><div class="stat-num" data-count="1937">0</div><div class="stat-label">Founded</div></div>
+    <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Always Open</div></div>
+    <div class="stat-item"><div class="stat-num" data-count="1076">0</div><div class="stat-label">Google Reviews</div></div>
+    <div class="stat-item"><div class="stat-num">4.6★</div><div class="stat-label">Rating</div></div>
+    <div class="stat-item"><div class="stat-num" data-count="87">0</div><div class="stat-label">Years Serving</div></div>
+  </div>
+
+  <section id="story-wrap">
+    <div id="story-grid">
+      <div class="story-imgs reveal-left">
+        <img class="img-main" src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=900&q=80" alt="Diner interior"/>
+        <img class="img-inset" src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&q=80" alt="Food"/>
+        <div class="est-badge">Est. 1937</div>
+      </div>
+      <div class="reveal-right">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">Two Streetcars.<br/>One Legend.</h2>
+        <p class="section-body">In 1937, two Evanston streetcars were fused together on W Irving Park Rd in Lake View. What emerged wasn't just a diner — it became the heartbeat of Chicago's night.</p>
+        <div class="fire-note">On <strong>Christmas Eve 2016</strong>, a fire nearly ended everything. The city helped us rebuild. We reopened in <strong>2018</strong> — same grill, same spirit.</div>
+        <br/><button class="btn-ghost" style="margin-top:14px" onclick="showPage('story')">Read Our Full Story</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-section"><div class="marquee-track"><span>BREAKFAST ALL DAY</span><span class="dot">●</span><span>THE SLINGER</span><span class="dot">●</span><span>OPEN 24 HOURS</span><span class="dot">●</span><span>PATTY MELT</span><span class="dot">●</span><span>CORNED BEEF HASH</span><span class="dot">●</span><span>PORK CHOP & EGGS</span><span class="dot">●</span><span>CHILAQUILES</span><span class="dot">●</span><span>RIBEYE & EGGS</span><span class="dot">●</span><span>BREAKFAST ALL DAY</span><span class="dot">●</span><span>THE SLINGER</span><span class="dot">●</span><span>OPEN 24 HOURS</span><span class="dot">●</span><span>PATTY MELT</span><span class="dot">●</span><span>CORNED BEEF HASH</span><span class="dot">●</span><span>PORK CHOP & EGGS</span><span class="dot">●</span><span>CHILAQUILES</span><span class="dot">●</span><span>RIBEYE & EGGS</span><span class="dot">●</span></div></div>
+
+  <section class="menu-preview-section">
+    <div class="menu-preview-inner">
+      <div class="menu-header-row">
+        <div class="reveal"><div class="section-label">What We Serve</div><h2 class="section-title">Fan Favorites</h2></div>
+        <button class="btn-ghost reveal" onclick="showPage('menu')">See Full Menu →</button>
+      </div>
+      <div class="menu-preview-grid">
+        <div class="menu-card reveal-scale"><div style="overflow:hidden"><img class="menu-card-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=75" alt="The Slinger"/></div><div class="menu-card-body"><div class="menu-card-name">The Slinger <span class="feat-tag">Fan Fave</span></div><div class="menu-card-desc">Burger, house chili, two eggs, hashbrowns.</div><div class="menu-card-price">$15.50</div></div></div>
+        <div class="menu-card reveal-scale"><div style="overflow:hidden"><img class="menu-card-img" src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=75" alt="Pork Chop"/></div><div class="menu-card-body"><div class="menu-card-name">Pork Chop & Eggs</div><div class="menu-card-desc">Full pork chop with two eggs. Diner heavyweight.</div><div class="menu-card-price">$12.50</div></div></div>
+        <div class="menu-card reveal-scale"><div style="overflow:hidden"><img class="menu-card-img" src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=75" alt="Chilaquiles"/></div><div class="menu-card-body"><div class="menu-card-name">Chilaquiles</div><div class="menu-card-desc">Crispy tortillas in salsa verde with eggs and crema.</div><div class="menu-card-price">$11.50</div></div></div>
+        <div class="menu-card reveal-scale"><div style="overflow:hidden"><img class="menu-card-img" src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=75" alt="Patty Melt"/></div><div class="menu-card-body"><div class="menu-card-name">Patty Melt</div><div class="menu-card-desc">Beef, caramelized onions, Swiss on griddled rye.</div><div class="menu-card-price">$8.45</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="slinger-section">
+    <div class="slinger-img-wrap"><img class="slinger-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=80" alt="The Slinger"/></div>
+    <div class="slinger-content reveal-right">
+      <div class="slinger-eyebrow">Chicago's Most Iconic Dish</div>
+      <div class="slinger-title">The<br/>Slinger</div>
+      <p class="slinger-desc">Half-pound burger smothered in house-made chili, two eggs, and hashbrowns. Chicago's legendary 3am salvation.</p>
+      <div class="slinger-price">$15.50</div>
+      <button class="btn-primary" onclick="showPage('order')">Order The Slinger</button>
+    </div>
+  </section>
+
+  <section id="gallery-section">
+    <div class="gallery-inner reveal"><div class="section-label">The Grill in Action</div><h2 class="section-title">Inside Diner Grill</h2></div>
+    <div class="gallery-3d-wrap">
+      <div class="gallery-row">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=75" alt="Food"/>
+        <img class="gal-img" src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=700&q=75" alt="Burger"/>
+        <img class="gal-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=75" alt="Breakfast"/>
+      </div>
+      <div class="gallery-row" style="margin-top:20px">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=75" alt="Counter"/>
+        <img class="gal-img" src="https://images.unsplash.com/photo-1482012792084-a0c3725f289f?w=700&q=75" alt="Coffee"/>
+        <img class="gal-img" src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=700&q=75" alt="Night"/>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews-section">
+    <div class="reviews-inner">
+      <div class="reviews-header reveal"><div class="section-label">What Chicago Says</div><h2 class="section-title">Loved by the City</h2><div style="font-size:24px;color:var(--gold2)">★★★★★</div></div>
+      <div class="reviews-grid">
+        <div class="review-card reveal"><div class="review-stars">★★★★★</div><p class="review-text">"The Slinger at 2am after a night out is the best decision you can make. Nothing else like it in Chicago."</p><div class="review-author">Marcus T.</div><div class="review-date">Google · 2 weeks ago</div></div>
+        <div class="review-card reveal"><div class="review-stars">★★★★★</div><p class="review-text">"A genuine Chicago institution. They rebuilt after the 2016 fire and came back better. Pork chop and eggs are still perfect."</p><div class="review-author">Sandra M.</div><div class="review-date">Google · 1 month ago</div></div>
+        <div class="review-card reveal"><div class="review-stars">★★★★★</div><p class="review-text">"Came visiting Chicago, wanted a real diner. Counter seats, short-order grill, bottomless coffee. THIS is the real diner."</p><div class="review-author">James K.</div><div class="review-date">Google · 3 weeks ago</div></div>
+      </div>
+      <div class="rating-block reveal"><div><div class="rating-big">4.6</div><div style="font-size:20px;color:var(--gold2)">★★★★★</div><div style="font-size:14px;color:var(--mid);margin-top:4px">1,076+ Google Reviews</div></div><button class="btn-ghost">Read All Reviews →</button></div>
+    </div>
+  </section>
+
+  <section id="cta-section">
+    <div class="cta-inner">
+      <div class="cta-title reveal">Order Online.<br/>24 Hours a Day.</div>
+      <p class="cta-sub reveal">It's 3am and you want the Slinger? We got you.</p>
+      <button class="btn-white reveal" onclick="showPage('order')">Start Your Order →</button>
+      <div class="delivery-links reveal"><a>🛵 DoorDash</a><a>🟠 Grubhub</a><a>🚗 Uber Eats</a></div>
+    </div>
+  </section>
+
+  <section id="email-section">
+    <div class="capture-inner reveal">
+      <h2 class="capture-title">Get Specials. Earn Coffee.</h2>
+      <p class="capture-sub">Weekly specials, diner news, and a free coffee just for signing up.</p>
+      <div class="capture-offer">☕ Free coffee on your first visit after signing up</div>
+      <form class="email-form" onsubmit="handleSignup(event)"><input type="text" placeholder="Your name"/><input type="email" placeholder="Your email" required/><button type="submit">Sign Me Up</button></form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><div class="footer-logo">Diner <span>Grill</span></div><div class="footer-tagline">Built from two streetcars in 1937.<br/>Still serving Chicago, 24 hours a day.</div><div class="social-links"><a class="social-link">📘</a><a class="social-link">📸</a><a class="social-link">⭐</a></div></div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a onclick="showPage('menu')">Menu</a></li><li><a onclick="showPage('story')">Our Story</a></li><li><a onclick="showPage('specials')">Specials</a></li><li><a onclick="showPage('contact')">Find Us</a></li></ul></div>
+      <div class="footer-col"><h4>Visit</h4><ul><li><a>1635 W Irving Park Rd</a></li><li><a>Chicago, IL 60613</a></li><li><a href="tel:+17735259555">(773) 525-9555</a></li><li><a style="color:#27AE60;font-weight:700">Open 24/7</a></li></ul></div>
+      <div class="footer-col"><h4>Order</h4><ul><li><a onclick="showPage('order')">Order Online</a></li><li><a>DoorDash</a></li><li><a>Grubhub</a></li><li><a>Uber Eats</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Diner Grill Chicago · 1635 W Irving Park Rd, Lake View, Chicago, IL 60613 · Open 24 Hours</p></div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ② MENU
+════════════════════════════════════════════ -->
+<div class="page-section" id="page-menu">
+  <section class="page-hero">
+    <canvas class="page-canvas" id="menu-canvas"></canvas>
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content"><div class="page-label">Chicago's Finest</div><h1 class="page-title">The Menu</h1></div>
+  </section>
+  <div class="menu-body">
+    <div class="menu-note"><strong>Egg white substitution:</strong> +$1.00 &nbsp;·&nbsp; <strong>Toast:</strong> white, wheat, rye, sourdough, raisin, English muffin &nbsp;·&nbsp; Open <strong>24 hours, 7 days</strong></div>
+    <div class="menu-controls">
+      <button class="tab-btn active" onclick="filterMenu('all',this)">All</button>
+      <button class="tab-btn" onclick="filterMenu('breakfast',this)">Breakfast</button>
+      <button class="tab-btn" onclick="filterMenu('signatures',this)">Signatures</button>
+      <button class="tab-btn" onclick="filterMenu('sandwiches',this)">Sandwiches</button>
+      <button class="tab-btn" onclick="filterMenu('drinks',this)">Drinks</button>
+    </div>
+    <div id="menu-full-grid" class="menu-full-grid"></div>
+  </div>
+  <footer class="site-footer"><div class="footer-bottom" style="padding-top:0;border-top:none"><p style="padding:28px 0">© 2026 Diner Grill Chicago · Open 24/7 · (773) 525-9555</p></div></footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ③ STORY
+════════════════════════════════════════════ -->
+<div class="page-section" id="page-story">
+  <section class="story-hero">
+    <canvas id="story-canvas"></canvas>
+    <div class="story-hero-bg"></div>
+    <div class="story-hero-overlay"></div>
+    <div class="story-hero-year">1937</div>
+    <div class="story-hero-content">
+      <div class="story-eyebrow" id="story-eyebrow">Chicago, Illinois</div>
+      <h1 class="story-hero-title" id="story-htitle">Built from<br/><em>Two Streetcars.</em><br/>One Legend.</h1>
+      <p class="story-hero-sub" id="story-hsub">87 years of grill smoke, bottomless coffee, and the city's most loyal regulars.</p>
+    </div>
+    <div class="scroll-hint" id="story-scroll-hint" style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0"><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700">Our Story</span><div class="scroll-line"></div></div>
+  </section>
+
+  <section id="timeline" style="max-width:100%;padding:120px 60px">
+    <div class="tl-header-label">A Chicago Timeline</div>
+    <h2 class="tl-header-title">How We Got Here</h2>
+    <div style="max-width:1100px;margin:0 auto">
+      <div class="tl-item"><div class="tl-left reveal"><div class="tl-year">1937</div><div class="tl-title">Born from Streetcars</div><p class="tl-body">Two decommissioned Evanston streetcars were fused together on West Irving Park Road. What emerged wasn't just a diner — it was a way of life.</p><img class="tl-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75" alt="Vintage diner"/></div><div class="tl-center"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-right"></div></div>
+      <div class="tl-item"><div class="tl-left"></div><div class="tl-center"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-right reveal"><div class="tl-year">1960s</div><div class="tl-title">Chicago's Late Night Institution</div><p class="tl-body">Factory workers, musicians, neighborhood families. The counter was always full.</p><img class="tl-img" src="https://images.unsplash.com/photo-1551218372-a8789b81b253?w=600&q=75" alt="Diner 1960s"/></div></div>
+      <div class="tl-item"><div class="tl-left reveal"><div class="tl-year">1980s–2000s</div><div class="tl-title">Generations of Regulars</div><p class="tl-body">The menu barely changed. That was the point. The Slinger. Pork chop and eggs. Bottomless coffee. Some things don't need improvement.</p></div><div class="tl-center"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-right"></div></div>
+      <div class="tl-item"><div class="tl-left"></div><div class="tl-center"><div class="tl-dot" style="background:var(--red);box-shadow:0 0 0 4px var(--red)"></div><div class="tl-line"></div></div><div class="tl-right reveal"><div class="tl-year" style="color:var(--red)">2016</div><div class="tl-title">Christmas Eve Fire</div><p class="tl-body">A devastating fire on December 24, 2016 threatened to end everything. But the city showed up and demanded we come back.</p></div></div>
+      <div class="tl-item"><div class="tl-left reveal"><div class="tl-year" style="color:#27AE60">2018</div><div class="tl-title">Rebuilt. Reopened.</div><p class="tl-body">Same address. Same grill. Same recipes. Same soul. The regulars came back on day one — some had been waiting at the door.</p><img class="tl-img" src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=75" alt="Diner 2018"/></div><div class="tl-center"><div class="tl-dot" style="background:#27AE60;box-shadow:0 0 0 4px #27AE60"></div><div class="tl-line"></div></div><div class="tl-right"></div></div>
+      <div class="tl-item"><div class="tl-left"></div><div class="tl-center"><div class="tl-dot"></div></div><div class="tl-right reveal"><div class="tl-year">Today</div><div class="tl-title">Still Here. Still Open.</div><p class="tl-body">4.6 stars. 1,076+ reviews. 87 years and counting. Open right now. The grill never stops.</p></div></div>
+    </div>
+  </section>
+
+  <section id="fire-section">
+    <div class="fire-inner">
+      <div class="fire-year reveal">2016</div>
+      <h2 class="fire-title reveal">The Night We Almost Lost It All</h2>
+      <p class="fire-body reveal">Christmas Eve, 2016. A fire consumed most of the building. Within hours, the community started calling — offering support, demanding we come back.</p>
+      <div class="fire-quote reveal">"We weren't just going to walk away from 80 years of history. This place belongs to Chicago."<div style="margin-top:14px;font-size:13px;color:rgba(255,255,255,.5);font-style:normal;font-weight:700;letter-spacing:1px">— The Diner Grill Team</div></div>
+    </div>
+  </section>
+
+  <section id="rebirth">
+    <div class="rebirth-inner">
+      <div class="reveal-left">
+        <div style="font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Reopened 2018</div>
+        <h2 style="font-family:'Playfair Display';font-size:clamp(32px,5vw,52px);font-weight:900;color:var(--charcoal);margin-bottom:20px">Same Grill.<br/>Stronger Soul.</h2>
+        <p style="font-size:16px;line-height:1.85;color:var(--mid);margin-bottom:24px">The 2018 reopening preserved the original character while upgrading what needed upgrading. The streetcar DNA remains. The counter is back. The grill is hot.</p>
+        <button class="btn-gold" style="margin-top:14px" onclick="showPage('order')">Order Online Now →</button>
+      </div>
+      <div class="reveal-right">
+        <div class="rebirth-imgs">
+          <img class="rebirth-img" src="https://images.unsplash.com/photo-1551218372-a8789b81b253?w=500&q=75" alt="Counter"/>
+          <img class="rebirth-img" src="https://images.unsplash.com/photo-1482012792084-a0c3725f289f?w=500&q=75" alt="Coffee"/>
+          <img class="rebirth-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=75" alt="Food"/>
+          <img class="rebirth-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=75" alt="Diner"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--light);padding:100px 60px;text-align:center">
+    <div class="reveal"><div class="section-label">From the Team</div></div>
+    <p class="reveal" style="font-family:'Playfair Display';font-size:clamp(20px,3vw,32px);font-style:italic;color:var(--charcoal);line-height:1.6;max-width:700px;margin:20px auto 20px">"This isn't a trendy brunch spot. We have a grill, a counter, and 87 years of Chicago in our bones. We're open right now."</p>
+    <div class="reveal" style="font-size:13px;color:var(--mid);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:40px">— The Diner Grill Family · Since 1937</div>
+    <div class="reveal"><button class="btn-gold" onclick="showPage('contact')" style="margin-right:16px">Find Us →</button><button class="btn-ghost" onclick="showPage('menu')">View Menu</button></div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-bottom" style="padding-top:0;border-top:none"><p style="padding:28px 0">© 2026 Diner Grill Chicago · Open 24/7 · (773) 525-9555</p></div></footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ④ SPECIALS
+════════════════════════════════════════════ -->
+<div class="page-section" id="page-specials">
+  <section class="page-hero">
+    <canvas class="page-canvas" id="specials-canvas"></canvas>
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1482012792084-a0c3725f289f?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content"><div class="page-label">Updated Weekly</div><h1 class="page-title">Specials</h1><div class="week-badge" id="week-badge">Week of May 18–24, 2026</div></div>
+  </section>
+  <div class="specials-body">
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:52px" class="reveal"><div style="font-family:'Bebas Neue';font-size:38px;color:var(--charcoal);letter-spacing:2px">This Week's Specials</div><div style="font-size:13px;color:var(--mid)">Available while supplies last</div></div>
+    <div class="specials-grid">
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=75" alt="Slinger"/></div><div class="spec-badge">Monday Only</div><div class="special-card-body"><div class="special-card-day">Monday Special</div><div class="special-card-name">Double Slinger Monday</div><div class="special-card-desc">Two Slingers for the price of one and a half. Challenge accepted?</div><div class="special-card-footer"><span class="special-price">$22.00</span><span style="font-size:12px;color:#27AE60;font-weight:700">Save $9</span></div></div></div>
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=75" alt="Chilaquiles"/></div><div class="spec-badge gold-badge">Wed–Thu</div><div class="special-card-body"><div class="special-card-day">Wednesday & Thursday</div><div class="special-card-name">Chilaquiles + Coffee Combo</div><div class="special-card-desc">Chilaquiles with bottomless coffee. The perfect mid-week reset.</div><div class="special-card-footer"><span class="special-price">$12.50</span><span style="font-size:12px;color:#27AE60;font-weight:700">Free coffee!</span></div></div></div>
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=75" alt="Weekend Brunch"/></div><div class="spec-badge">Weekend</div><div class="special-card-body"><div class="special-card-day">Saturday & Sunday</div><div class="special-card-name">Weekend Brunch Stack</div><div class="special-card-desc">Pork chop, eggs, hashbrowns, toast, and bottomless coffee.</div><div class="special-card-footer"><span class="special-price">$16.00</span></div></div></div>
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=75" alt="Night Owl"/></div><div class="spec-badge dark-badge">Midnight–6am</div><div class="special-card-body"><div class="special-card-day">Every Night, Midnight–6am</div><div class="special-card-name">Night Owl Deal</div><div class="special-card-desc">Any breakfast + coffee for $10 flat. 3am deserves a discount.</div><div class="special-card-footer"><span class="special-price">$10.00</span></div></div></div>
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=75" alt="Burrito"/></div><div class="spec-badge gold-badge">Tuesday</div><div class="special-card-body"><div class="special-card-day">Tuesday Special</div><div class="special-card-name">Burrito + OJ Combo</div><div class="special-card-desc">Breakfast burrito plus fresh orange juice. All day Tuesday.</div><div class="special-card-footer"><span class="special-price">$11.00</span><span style="font-size:12px;color:#27AE60;font-weight:700">Save $2.25</span></div></div></div>
+      <div class="special-card reveal"><div style="overflow:hidden"><img class="special-card-img" src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=75" alt="Burger Friday"/></div><div class="spec-badge">Friday</div><div class="special-card-body"><div class="special-card-day">Friday Special</div><div class="special-card-name">Double Bacon Cheeseburger Friday</div><div class="special-card-desc">Double bacon cheeseburger with fries and a drink. End the week right.</div><div class="special-card-footer"><span class="special-price">$14.00</span></div></div></div>
+    </div>
+    <div class="seasonal-feature reveal-scale">
+      <div class="sf-img"><img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80" alt="Summer Special"/></div>
+      <div class="sf-content"><div class="sf-eyebrow">This Month's Feature</div><div class="sf-title">Summer Pork<br/>Chop Plate</div><p class="sf-desc">Double pork chop with seasonal roasted vegetables, two eggs, and a biscuit. Available May–June.</p><div class="sf-price">$18.50</div><button class="btn-gold" onclick="showPage('order')">Order This Now →</button></div>
+    </div>
+    <div style="text-align:center;margin-bottom:60px">
+      <div class="section-label reveal">Follow @DinerGrill</div>
+      <h2 class="section-title reveal" style="text-align:center">Specials on Instagram</h2>
+      <div class="ig-grid">
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&q=75" alt="IG 1"/></div>
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=75" alt="IG 2"/></div>
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=300&q=75" alt="IG 3"/></div>
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=300&q=75" alt="IG 4"/></div>
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=300&q=75" alt="IG 5"/></div>
+        <div class="ig-item reveal"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=300&q=75" alt="IG 6"/></div>
+      </div>
+    </div>
+    <div style="background:var(--charcoal);border-radius:24px;padding:60px;text-align:center" class="reveal-scale">
+      <h2 style="font-family:'Playfair Display';font-size:34px;color:var(--white);margin-bottom:12px">Never Miss a Special</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.55);margin-bottom:30px">Get weekly specials + a free coffee just for signing up.</p>
+      <div style="display:inline-block;background:rgba(212,146,42,.15);border:1px solid var(--gold2);border-radius:8px;padding:9px 20px;font-size:13px;color:var(--gold2);margin-bottom:28px;font-weight:600">☕ Free coffee on first visit</div>
+      <form class="email-form" style="max-width:440px;margin:0 auto" onsubmit="handleSignup(event)"><input type="email" placeholder="Your email address" required/><button type="submit">Notify Me</button></form>
+    </div>
+  </div>
+  <footer class="site-footer" style="margin-top:100px"><div class="footer-bottom" style="padding-top:0;border-top:none"><p style="padding:28px 0">© 2026 Diner Grill Chicago · Open 24/7 · (773) 525-9555</p></div></footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ⑤ CONTACT
+════════════════════════════════════════════ -->
+<div class="page-section" id="page-contact">
+  <section class="page-hero">
+    <canvas class="page-canvas" id="contact-canvas"></canvas>
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1481833761820-0509d3217039?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-label">Lake View, Chicago</div>
+      <h1 class="page-title">Find Us</h1>
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.9);border:1px solid rgba(39,174,96,.3);padding:9px 22px;border-radius:100px;font-size:13px;font-weight:700;color:var(--mid);margin-top:22px;box-shadow:0 4px 20px rgba(39,174,96,.12)"><span class="open-dot"></span> Open Right Now · 24 Hours</div>
+    </div>
+  </section>
+  <div class="contact-body">
+    <div class="info-cards">
+      <div class="info-card reveal"><div class="info-card-icon">📍</div><div class="info-card-label">Address</div><div class="info-card-value">1635 W Irving Park Rd</div><div class="info-card-sub">Chicago, IL 60613<br/>Lake View</div></div>
+      <div class="info-card reveal"><div class="info-card-icon">🕐</div><div class="info-card-label">Hours</div><div class="info-card-value" style="color:#27AE60">Open 24 Hours</div><div class="info-card-sub">Every day, every night</div></div>
+      <div class="info-card reveal"><div class="info-card-icon">📞</div><div class="info-card-label">Phone</div><div class="info-card-value">(773) 525-9555</div><div class="info-card-sub">Call anytime · We'll pick up</div></div>
+      <div class="info-card reveal"><div class="info-card-icon">🚗</div><div class="info-card-label">Parking</div><div class="info-card-value">Street Parking</div><div class="info-card-sub">Irving Park Rd & side streets</div></div>
+    </div>
+    <div class="map-section">
+      <div class="map-wrap reveal-left"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2966.4!2d-87.6682!3d41.954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd2e4df9d9ddb%3A0xabc123!2s1635+W+Irving+Park+Rd%2C+Chicago%2C+IL+60613!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <div class="reveal-right">
+        <h3 style="font-family:'Playfair Display';font-size:28px;font-weight:700;color:var(--charcoal);margin-bottom:28px">Getting Here</h3>
+        <ul class="hours-list"><li><span class="day">Mon – Sun</span><span class="time">Open 24 hrs every day</span></li></ul>
+        <div class="contact-details">
+          <div class="contact-row"><span class="contact-row-icon">📍</span><div class="contact-row-text">1635 W Irving Park Rd<br/>Chicago, IL 60613 (Lake View)</div></div>
+          <div class="contact-row"><span class="contact-row-icon">📞</span><div class="contact-row-text"><a href="tel:+17735259555">(773) 525-9555</a></div></div>
+          <div class="contact-row"><span class="contact-row-icon">🚌</span><div class="contact-row-text">CTA Bus: Irving Park Rd routes · Near Brown Line</div></div>
+          <div class="contact-row"><span class="contact-row-icon">🚗</span><div class="contact-row-text">Street parking on Irving Park Rd and adjacent side streets</div></div>
+        </div>
+        <a href="https://maps.google.com/?q=1635+W+Irving+Park+Rd+Chicago+IL" target="_blank" class="directions-btn">📍 Get Directions →</a>
+      </div>
+    </div>
+    <div class="catering-section reveal-scale">
+      <div class="catering-inner">
+        <div>
+          <div class="section-label">Get in Touch</div>
+          <h2 class="section-title" style="font-size:clamp(28px,3vw,38px)">Catering &<br/>Inquiries</h2>
+          <p style="font-size:15px;color:var(--mid);line-height:1.75">Planning a large group? Want to cater an event? Have feedback? We'd love to hear from you.</p>
+          <div style="margin-top:24px;padding:18px 22px;background:rgba(212,146,42,.08);border-radius:10px;font-size:14px;color:var(--mid);line-height:1.7"><strong style="color:var(--gold)">Catering available</strong> for parties of 10+. Call <a href="tel:+17735259555" style="color:var(--gold);font-weight:700">(773) 525-9555</a> for immediate assistance.</div>
+        </div>
+        <form class="contact-form" onsubmit="handleForm(event)">
+          <div class="form-row"><input type="text" placeholder="Your name" required/><input type="email" placeholder="Email address" required/></div>
+          <input type="tel" placeholder="Phone number (optional)"/>
+          <select><option value="" disabled selected>What's this about?</option><option>Catering inquiry</option><option>Feedback / compliment</option><option>General question</option><option>Media / press</option><option>Other</option></select>
+          <textarea placeholder="Your message..."></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+    <div class="nb-card reveal-scale">
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:14px">Lake View, Chicago</div><div style="font-family:'Bebas Neue';font-size:52px;color:var(--white);letter-spacing:2px;margin-bottom:16px">In the Heart<br/>of the City</div><p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.8">Lake View is one of Chicago's most vibrant neighborhoods. We've been here since 1937. We're not going anywhere.</p><div style="margin-top:28px;display:flex;gap:16px;flex-wrap:wrap"><button class="btn-gold" onclick="showPage('order')">Order Online →</button><button class="btn-ghost" style="border-color:rgba(255,255,255,.3);color:white" onclick="showPage('menu')">View Menu</button></div></div>
+      <div class="nb-imgs"><img class="nb-img" src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=500&q=75" alt="Interior"/><img class="nb-img" src="https://images.unsplash.com/photo-1482012792084-a0c3725f289f?w=500&q=75" alt="Coffee"/><img class="nb-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=75" alt="Food"/><img class="nb-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=75" alt="Breakfast"/></div>
+    </div>
+    <div style="text-align:center;margin-bottom:60px">
+      <div class="section-label reveal">Connect With Us</div>
+      <h2 class="section-title reveal" style="text-align:center">Follow the Grill</h2>
+      <div class="social-row reveal"><a class="social-big"><span>📘</span>Facebook</a><a class="social-big"><span>📸</span>Instagram</a><a class="social-big"><span>⭐</span>Yelp</a><a class="social-big"><span>🗺️</span>TripAdvisor</a></div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="footer-bottom" style="padding-top:0;border-top:none"><p style="padding:28px 0">© 2026 Diner Grill Chicago · Open 24/7 · (773) 525-9555</p></div></footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ⑥ ORDER
+════════════════════════════════════════════ -->
+<div class="page-section" id="page-order">
+  <section class="order-hero">
+    <canvas id="order-canvas"></canvas>
+    <div class="order-hero-bg"></div>
+    <div class="order-hero-overlay"></div>
+    <div class="order-hero-content">
+      <div class="order-badge"><span class="order-dot"></span> Accepting Orders Now</div>
+      <h1 class="order-title">Order<br/><span>Online</span></h1>
+      <p class="order-sub">Pickup ready in 15–20 minutes. Available 24 hours a day, 7 days a week.</p>
+      <div class="order-time"><div class="order-time-item"><div class="order-time-value" id="ot-h">--</div><div class="order-time-label">Hours</div></div><div class="order-time-sep">:</div><div class="order-time-item"><div class="order-time-value" id="ot-m">--</div><div class="order-time-label">Minutes</div></div><div class="order-time-sep">:</div><div class="order-time-item"><div class="order-time-value" id="ot-s">--</div><div class="order-time-label">Seconds</div></div><div style="width:1px;background:rgba(44,44,44,.1);height:40px;margin:0 8px"></div><div class="order-time-item"><div class="order-time-value" style="color:#27AE60;font-size:22px">OPEN</div><div class="order-time-label">Right Now</div></div></div>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-primary" onclick="document.getElementById('order-popular').scrollIntoView({behavior:'smooth'})">Start My Order →</button>
+        <button class="btn-ghost" onclick="showPage('menu')">View Full Menu</button>
+      </div>
+    </div>
+  </section>
+  <div class="order-options-section" style="padding-top:80px">
+    <h2 style="font-family:'Playfair Display';font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--charcoal);text-align:center;margin-bottom:12px">How Do You Want It?</h2>
+    <p style="text-align:center;font-size:15px;color:var(--mid);margin-bottom:56px">Pick your method — we'll have it ready.</p>
+    <div class="order-cards">
+      <div class="order-card featured-card reveal"><img class="order-card-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=75" alt="Pickup"/><div class="featured-ribbon">Fastest</div><div class="order-card-body"><div class="order-card-icon">🏃</div><div class="order-card-title">Pickup</div><div class="order-card-desc">Order online, pick up in 15–20 minutes. Skip the line. Fresh off the grill.</div><div class="order-card-cta">Order for Pickup →</div></div></div>
+      <div class="order-card reveal"><img class="order-card-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=75" alt="DoorDash"/><div class="order-card-body"><div class="order-card-icon">🛵</div><div class="order-card-title">DoorDash</div><div class="order-card-desc">Delivered to your door. Live tracking. Estimated 25–40 minutes.</div><div class="order-card-cta">Order on DoorDash →</div></div></div>
+      <div class="order-card reveal"><img class="order-card-img" src="https://images.unsplash.com/photo-1482012792084-a0c3725f289f?w=600&q=75" alt="Other delivery"/><div class="order-card-body"><div class="order-card-icon">🚗</div><div class="order-card-title">Grubhub / Uber Eats</div><div class="order-card-desc">Also available on Grubhub and Uber Eats. Use your preferred platform.</div><div class="order-card-cta">Open Delivery Apps →</div></div></div>
+    </div>
+    <h2 style="font-family:'Playfair Display';font-size:clamp(26px,3vw,38px);font-weight:700;color:var(--charcoal);margin-bottom:36px;text-align:center" id="order-popular">Popular Right Now</h2>
+    <div class="popular-grid" id="popular-grid"></div>
+    <div class="delivery-section reveal-scale">
+      <div class="del-title">Also Available On</div><p class="del-sub">Order from your preferred delivery platform</p>
+      <div class="del-partners"><a class="del-btn"><span>🛵</span>DoorDash</a><a class="del-btn"><span>🟠</span>Grubhub</a><a class="del-btn"><span>🚗</span>Uber Eats</a></div>
+    </div>
+    <h2 style="font-family:'Playfair Display';font-size:clamp(26px,3vw,38px);font-weight:700;color:var(--charcoal);margin-bottom:36px;text-align:center;margin-top:60px">Our Promise</h2>
+    <div class="guarantee">
+      <div class="guar-item reveal"><div class="guar-icon">⏱️</div><div class="guar-title">Ready in 15–20 min</div><div class="guar-desc">Pickup orders are hot and ready quickly.</div></div>
+      <div class="guar-item reveal"><div class="guar-icon">🕐</div><div class="guar-title">Open 24/7</div><div class="guar-desc">Order at 3am, 6am, noon — always accepting orders.</div></div>
+      <div class="guar-item reveal"><div class="guar-icon">📱</div><div class="guar-title">SMS Confirmation</div><div class="guar-desc">Get a text when your order is confirmed and ready.</div></div>
+      <div class="guar-item reveal"><div class="guar-icon">🚫</div><div class="guar-title">No Account Needed</div><div class="guar-desc">Guest checkout available. No forced signups.</div></div>
+    </div>
+  </div>
+  <footer class="site-footer" style="margin-top:80px"><div class="footer-bottom" style="padding-top:0;border-top:none"><p style="padding:28px 0">© 2026 Diner Grill Chicago · Open 24/7 · (773) 525-9555</p></div></footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+// ── PAGE NAVIGATION ──────────────────────────
+const PAGES = ['home','menu','story','specials','contact','order'];
+let currentPage = 'home';
+let threeInstances = {};
+let lenisInstance = null;
+
+function showPage(page) {
+  if (currentPage === page) return;
+  const prev = document.getElementById('page-' + currentPage);
+  const next = document.getElementById('page-' + page);
+  gsap.to(prev, {opacity: 0, y: -30, duration: 0.35, ease: 'power2.in', onComplete: () => {
+    prev.classList.remove('active');
+    prev.style.opacity = '';
+    prev.style.transform = '';
+    next.classList.add('active');
+    gsap.fromTo(next, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 0.5, ease: 'power3.out'});
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    initPageAnimations(page);
+    if (page === 'order') initOrderThree();
+    if (page === 'story') initStoryThree();
+    updateClock();
+  }});
+  currentPage = page;
+  PAGES.forEach(p => {
+    const el = document.getElementById('nav-' + p);
+    if (el) el.classList.toggle('active-nav', p === page);
+  });
+  document.getElementById('sticky-order').classList.toggle('visible', page !== 'order' && page !== 'home');
+  if (page === 'order') document.getElementById('cart-mini').classList.toggle('visible', cart > 0);
+}
+
+// ── LOADER ───────────────────────────────────
+window.addEventListener('load', () => {
+  const bar = document.getElementById('lbar'); let w = 0;
+  const iv = setInterval(() => {
+    w = Math.min(w + Math.random() * 14 + 6, 100);
+    bar.style.width = w + '%';
+    if (w >= 100) { clearInterval(iv); setTimeout(() => {
+      gsap.to('#loader', {opacity: 0, duration: 0.6, onComplete: () => {
+        document.getElementById('loader').style.display = 'none';
+        initAll();
+      }});
+    }, 200); }
+  }, 55);
+});
+
+function initAll() {
+  gsap.registerPlugin(ScrollTrigger);
+  initLenis();
+  initHomeThree();
+  initCursor();
+  initPageAnimations('home');
+  initHomeHeroAnim();
+  buildMenuGrid();
+  buildPopularGrid();
+  updateClock(); setInterval(updateClock, 1000);
+  setWeekBadge();
+  window.addEventListener('scroll', onScroll);
+}
+
+function onScroll() {
+  const s = window.scrollY;
+  document.getElementById('navbar').classList.toggle('scrolled', s > 60);
+  if (currentPage === 'home') {
+    document.getElementById('sticky-order').classList.toggle('visible', s > window.innerHeight * 0.6);
+  }
+}
+
+// ── LENIS ─────────────────────────────────────
+function initLenis() {
+  lenisInstance = new Lenis({lerp: 0.075, smoothWheel: true});
+  gsap.ticker.add(t => lenisInstance.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+
+// ── HOME THREE.JS ─────────────────────────────
+function initHomeThree() {
+  const canvas = document.getElementById('three-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha: true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, .1, 100);
+  camera.position.z = 4;
+  const shapes = [];
+  [[new THREE.TorusGeometry(1.2,.35,8,32), 0xd4922a],[new THREE.OctahedronGeometry(1.5,0), 0xf2b84b],[new THREE.TorusKnotGeometry(.8,.2,64,8), 0xd4922a]].forEach(([geo,col],i) => {
+    const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({color:col,transparent:true,opacity:.15,wireframe:true}));
+    m.position.set((i-1)*3.5,(Math.random()-.5)*2,0); scene.add(m); shapes.push(m);
+  });
+  const pGeo = new THREE.BufferGeometry();
+  const pos = new Float32Array(1500*3); for(let i=0;i<1500*3;i++) pos[i]=(Math.random()-.5)*20;
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({color:0xd4922a,size:.022,transparent:true,opacity:.7})));
+  scene.add(new THREE.DirectionalLight(0xf2b84b,1.5)); scene.add(new THREE.AmbientLight(0xfdf6ec,.5));
+  let t=0, mx=0, my=0;
+  document.addEventListener('mousemove', e => {mx=(e.clientX/window.innerWidth-.5)*2; my=(e.clientY/window.innerHeight-.5)*2});
+  (function loop(){requestAnimationFrame(loop);t+=.008;shapes.forEach((s,i)=>{s.rotation.x=t*(i+.5)*.4;s.rotation.y=t*(i+.3)*.5;s.position.y=Math.sin(t*(i+1)*.3)*.8});camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
+  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+}
+
+// ── STORY THREE.JS ────────────────────────────
+function initStoryThree() {
+  const canvas = document.getElementById('story-canvas');
+  if (canvas._init) return; canvas._init = true;
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,.1,100);
+  camera.position.z=5;
+  const shapes=[];
+  [[new THREE.IcosahedronGeometry(1.5,1)],[new THREE.TorusGeometry(2,.3,8,40)],[new THREE.OctahedronGeometry(1.2,0)]].forEach(([geo],i)=>{
+    const m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:i===1?0xc0392b:0xd4922a,transparent:true,opacity:.12,wireframe:true}));
+    m.position.set((i-1)*4.5,0,-2); scene.add(m); shapes.push(m);
+  });
+  const pGeo=new THREE.BufferGeometry(); const pos=new Float32Array(2000*3);
+  for(let i=0;i<2000*3;i++) pos[i]=(Math.random()-.5)*22;
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xd4922a,size:.018,transparent:true,opacity:.5})));
+  scene.add(new THREE.DirectionalLight(0xf2b84b,2)); scene.add(new THREE.AmbientLight(0xfdf6ec,.4));
+  let t=0,mx=0,my=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2});
+  (function loop(){requestAnimationFrame(loop);t+=.007;shapes.forEach((s,i)=>{s.rotation.x=t*.4*(i+1);s.rotation.y=t*.3*(i+1);s.position.y=Math.sin(t*(i+.5)*.4)*.8});camera.position.x+=(mx*.4-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
+  // Story hero entrance
+  const tl=gsap.timeline({delay:.1});
+  tl.to('#story-eyebrow',{opacity:1,y:0,duration:.7,ease:'power3.out'}).to('#story-htitle',{opacity:1,y:0,duration:.9,ease:'power3.out'},'-=.4').to('#story-hsub',{opacity:1,y:0,duration:.7,ease:'power3.out'},'-=.5').to('#story-scroll-hint',{opacity:1,duration:.4},'-=.2');
+  gsap.to('.story-hero-year',{y:-100,ease:'none',scrollTrigger:{trigger:'.story-hero',start:'top top',end:'bottom top',scrub:1.5}});
+}
+
+// ── ORDER THREE.JS ────────────────────────────
+function initOrderThree() {
+  const canvas = document.getElementById('order-canvas');
+  if (canvas._init) return; canvas._init = true;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true});
+  renderer.setSize(window.innerWidth,window.innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,.1,100);
+  camera.position.z=5;
+  const shapes=[];
+  [[new THREE.TorusGeometry(2,.4,8,40),0xd4922a],[new THREE.TorusGeometry(1.4,.35,8,32),0xc0392b],[new THREE.TorusGeometry(1,.3,8,24),0xf2b84b]].forEach(([geo,col],i)=>{
+    const m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:col,transparent:true,opacity:.12+(i*.02),wireframe:true}));
+    m.position.y=(i-1)*.6; scene.add(m); shapes.push(m);
+  });
+  for(let i=0;i<8;i++){const m=new THREE.Mesh(new THREE.BoxGeometry(.3,.3,.3),new THREE.MeshPhongMaterial({color:0xd4922a,transparent:true,opacity:.15}));m.position.set((Math.random()-.5)*12,(Math.random()-.5)*6,-2);m.userData={oy:m.position.y,speed:Math.random()*.5+.3,phase:Math.random()*Math.PI*2};scene.add(m);shapes.push(m);}
+  const pGeo=new THREE.BufferGeometry();const pos=new Float32Array(2000*3);for(let i=0;i<2000*3;i++)pos[i]=(Math.random()-.5)*22;
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xd4922a,size:.02,transparent:true,opacity:.6})));
+  scene.add(new THREE.DirectionalLight(0xf2b84b,2));scene.add(new THREE.AmbientLight(0xfdf6ec,.5));
+  let t=0,mx=0,my=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2});
+  (function loop(){requestAnimationFrame(loop);t+=.01;shapes[0].rotation.x=t*.4;shapes[0].rotation.z=t*.2;shapes[1].rotation.y=t*.5;shapes[1].rotation.x=t*.3;shapes[2].rotation.x=t*.6;shapes[2].rotation.z=-t*.3;for(let i=3;i<shapes.length;i++){const u=shapes[i].userData;shapes[i].position.y=u.oy+Math.sin(t*u.speed+u.phase)*.4;shapes[i].rotation.x=t*u.speed;shapes[i].rotation.y=t*u.speed*.8;}camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
+}
+
+// ── HOME HERO ANIM ────────────────────────────
+function initHomeHeroAnim() {
+  const tl = gsap.timeline({delay:.1});
+  tl.to('.hero-chip',{opacity:1,y:0,duration:.7,ease:'power3.out'})
+    .to('.hero-title',{opacity:1,y:0,duration:.9,ease:'power3.out'},'-=.4')
+    .to('.hero-tagline',{opacity:1,y:0,duration:.7,ease:'power3.out'},'-=.5')
+    .to('.hero-btns',{opacity:1,y:0,duration:.6,ease:'power3.out'},'-=.4')
+    .to('#scroll-hint',{opacity:1,duration:.4},'-=.2');
+  gsap.to('.hero-bg',{yPercent:35,ease:'none',scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
+  gsap.to('.img-main',{y:-60,ease:'none',scrollTrigger:{trigger:'#story-wrap',start:'top bottom',end:'bottom top',scrub:1.5}});
+  gsap.to('.img-inset',{y:40,ease:'none',scrollTrigger:{trigger:'#story-wrap',start:'top bottom',end:'bottom top',scrub:2}});
+  // Counter animations
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count), obj = {val:0};
+    gsap.to(obj,{val:target,duration:2.5,ease:'power2.out',onUpdate:()=>{el.textContent=Math.round(obj.val).toLocaleString()},scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none none'}});
+  });
+  // Gallery 3D tilt
+  document.querySelectorAll('.gal-img').forEach(img => {
+    img.addEventListener('mousemove',e=>{const r=img.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(img,{rotateY:x*18,rotateX:-y*18,duration:.4,ease:'power2.out',transformPerspective:800})});
+    img.addEventListener('mouseleave',()=>gsap.to(img,{rotateY:0,rotateX:0,duration:.6,ease:'power3.out'}));
+  });
+}
+
+// ── PAGE ANIMATIONS (scroll reveals) ─────────
+function initPageAnimations(page) {
+  setTimeout(() => {
+    const section = document.getElementById('page-' + page);
+    if (!section) return;
+    section.querySelectorAll('.reveal').forEach((el,i) => {
+      if (el._revealed) return; el._revealed = true;
+      gsap.fromTo(el,{opacity:0,y:60},{opacity:1,y:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},delay:(i%4)*.07});
+    });
+    section.querySelectorAll('.reveal-left').forEach(el => {
+      if (el._revealed) return; el._revealed = true;
+      gsap.fromTo(el,{opacity:0,x:-80},{opacity:1,x:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
+    });
+    section.querySelectorAll('.reveal-right').forEach(el => {
+      if (el._revealed) return; el._revealed = true;
+      gsap.fromTo(el,{opacity:0,x:80},{opacity:1,x:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
+    });
+    section.querySelectorAll('.reveal-scale').forEach(el => {
+      if (el._revealed) return; el._revealed = true;
+      gsap.fromTo(el,{opacity:0,scale:.88},{opacity:1,scale:1,duration:.75,ease:'back.out(1.4)',scrollTrigger:{trigger:el,start:'top 86%',toggleActions:'play none none none'}});
+    });
+    // Card 3D tilt
+    section.querySelectorAll('.menu-card,.review-card,.info-card,.special-card,.pop-item,.guar-item,.order-card').forEach(card => {
+      if (card._tilt) return; card._tilt = true;
+      card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*14,rotateX:-y*14,transformPerspective:800,duration:.3,ease:'power2.out'})});
+      card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.5,ease:'power3.out'}));
+    });
+    ScrollTrigger.refresh();
+  }, 100);
+}
+
+// ── CURSOR ────────────────────────────────────
+function initCursor() {
+  const cur=document.getElementById('cursor'), ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;gsap.to(cur,{x:mx,y:my,duration:.08})});
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx-22}px,${ry-22}px)`;requestAnimationFrame(loop)})();
+  document.addEventListener('mouseover',e=>{
+    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:3,duration:.2});gsap.to(ring,{scale:1.6,opacity:.25,duration:.2})}
+  });
+  document.addEventListener('mouseout',e=>{
+    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:1,duration:.2});gsap.to(ring,{scale:1,opacity:.4,duration:.2})}
+  });
+}
+
+// ── MENU DATA ─────────────────────────────────
+const ALL_MENU = [
+  {cat:'breakfast',name:'Bacon & Eggs',price:'$9.75',desc:'Thick-cut bacon with two eggs any style. Served with golden toast.',img:'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=600&q=75'},
+  {cat:'breakfast',name:'Baked Ham & Eggs',price:'$10.35',desc:'Classic baked ham with two eggs your way. Hashbrowns included.',img:'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=75'},
+  {cat:'breakfast',name:'Pork Chop & Eggs',price:'$12.50',desc:'A full pork chop with two eggs. The diner heavyweight.',img:'https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=75'},
+  {cat:'breakfast',name:'Corned Beef Hash & Eggs',price:'Market',desc:'House corned beef hash with two eggs. A Diner Grill classic.',img:'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=75'},
+  {cat:'breakfast',name:'Ribeye & Eggs',price:'Market',desc:'Sizzling ribeye steak with two eggs your way.',img:'https://images.unsplash.com/photo-1566740933430-b5e70b06d2d5?w=600&q=75'},
+  {cat:'breakfast',name:'Sausage & Eggs',price:'$9.75',desc:'Grilled pork sausage links with two eggs and toast.',img:'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=75'},
+  {cat:'breakfast',name:'2 Fried Eggs',price:'$6.50',desc:'Two eggs any style with your choice of toast.',img:'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=75'},
+  {cat:'breakfast',name:'Patties & Eggs',price:'$10.20',desc:'House-made beef patties with two eggs.',img:'https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=600&q=75'},
+  {cat:'signatures',name:'The Slinger',price:'$15.50',desc:'Burger, house chili, two eggs, hashbrowns. Chicago legend.',img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=75',tag:'Fan Favorite'},
+  {cat:'signatures',name:'Chilaquiles',price:'$11.50',desc:'Crispy tortillas in salsa verde with eggs and crema.',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=75'},
+  {cat:'signatures',name:'Breakfast Burrito',price:'$9.50',desc:'Eggs, bacon, peppers, onions, cheese in griddled tortilla.',img:'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=75'},
+  {cat:'signatures',name:'California Burrito',price:'Market',desc:'Steak, eggs, guacamole, pico de gallo, sour cream.',img:'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=600&q=75'},
+  {cat:'sandwiches',name:'Patty Melt',price:'$8.45',desc:'Beef patty, caramelized onions, Swiss on griddled rye.',img:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=75'},
+  {cat:'sandwiches',name:'Double Bacon Cheeseburger',price:'Market',desc:'Double beef, double bacon, double cheese. No apologies.',img:'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=75'},
+  {cat:'sandwiches',name:'Ribeye Sandwich',price:'Market',desc:'Thinly sliced ribeye on griddled bread with onions and peppers.',img:'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=600&q=75'},
+];
+const DRINKS = [
+  {name:'Coffee (Bottomless)',price:'$3.50',desc:'Fresh-brewed diner coffee. Refills until you say stop.'},
+  {name:'Orange Juice',price:'$3.25',desc:'Fresh-squeezed or carton — ask your server.'},
+  {name:'Hot Tea',price:'$2.75',desc:'Selection of teas with hot water.'},
+  {name:'Milk',price:'$2.50',desc:'Whole, 2%, or chocolate.'},
+  {name:'Soft Drinks',price:'$2.50',desc:'Coke, Diet Coke, Sprite, Lemonade.'},
+  {name:'Water',price:'Free',desc:'Complimentary.'},
+];
+
+let menuFilter = 'all';
+function buildMenuGrid() {
+  renderMenuGrid('all');
+}
+function filterMenu(cat, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenuGrid(cat);
+}
+function renderMenuGrid(cat) {
+  const grid = document.getElementById('menu-full-grid');
+  if (cat === 'drinks') {
+    grid.innerHTML = `<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:12px;max-width:640px">${DRINKS.map(d=>`<div class="no-img-card"><div><div class="no-img-name">${d.name}</div><div class="no-img-desc">${d.desc}</div></div><div class="no-img-price">${d.price}</div></div>`).join('')}</div>`;
+  } else {
+    const items = cat === 'all' ? ALL_MENU : ALL_MENU.filter(i => i.cat === cat);
+    grid.innerHTML = items.map(item => `
+      <div class="menu-card">
+        <div style="overflow:hidden"><img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy"/></div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">${item.name}${item.tag?`<span class="feat-tag">${item.tag}</span>`:''}</div>
+          <div class="menu-card-desc">${item.desc}</div>
+          <div class="menu-card-price">${item.price}</div>
+        </div>
+      </div>`).join('');
+  }
+  // Animate newly rendered cards
+  grid.querySelectorAll('.menu-card').forEach((card,i) => {
+    gsap.fromTo(card,{opacity:0,y:40,scale:.95},{opacity:1,y:0,scale:1,duration:.5,ease:'power3.out',delay:i*.05});
+    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*14,rotateX:-y*14,transformPerspective:800,duration:.3,ease:'power2.out'})});
+    card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.5,ease:'power3.out'}));
+  });
+}
+
+// ── POPULAR ITEMS FOR ORDER ───────────────────
+const POPULAR_ITEMS = [
+  {name:'The Slinger',price:'$15.50',img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=75'},
+  {name:'Pork Chop & Eggs',price:'$12.50',img:'https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=500&q=75'},
+  {name:'Chilaquiles',price:'$11.50',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500&q=75'},
+  {name:'Bacon & Eggs',price:'$9.75',img:'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=500&q=75'},
+  {name:'Patty Melt',price:'$8.45',img:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=75'},
+  {name:'Breakfast Burrito',price:'$9.50',img:'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&q=75'},
+  {name:'Corned Beef Hash',price:'Market',img:'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=500&q=75'},
+  {name:'Double Bacon Cheeseburger',price:'Market',img:'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&q=75'},
+];
+let cart = 0;
+function buildPopularGrid() {
+  document.getElementById('popular-grid').innerHTML = POPULAR_ITEMS.map(item => `
+    <div class="pop-item" onclick="addToCart('${item.name}')">
+      <div style="overflow:hidden"><img class="pop-item-img" src="${item.img}" alt="${item.name}" loading="lazy"/></div>
+      <div class="pop-item-body">
+        <div><div class="pop-item-name">${item.name}</div><div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:3px">${item.price}</div></div>
+        <button class="add-btn" onclick="event.stopPropagation();addToCart('${item.name}')">+</button>
+      </div>
+    </div>`).join('');
+}
+function addToCart(name) {
+  cart++;
+  document.getElementById('cart-count').textContent = cart;
+  document.getElementById('cart-mini').classList.add('visible');
+  gsap.fromTo('#cart-count',{scale:1},{scale:1.5,duration:.2,yoyo:true,repeat:1,ease:'back.out(2)'});
+}
+function viewCart() {
+  if(cart>0) alert(`You have ${cart} item${cart>1?'s':''} in your order.\n\nConnect a POS system like Toast or Square for live checkout.\nPickup ready in 15–20 minutes!`);
+}
+
+// ── CLOCK ─────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = document.getElementById('ot-h'), m = document.getElementById('ot-m'), s = document.getElementById('ot-s');
+  if(h) h.textContent = String(now.getHours()).padStart(2,'0');
+  if(m) m.textContent = String(now.getMinutes()).padStart(2,'0');
+  if(s) s.textContent = String(now.getSeconds()).padStart(2,'0');
+}
+
+// ── WEEK BADGE ────────────────────────────────
+function setWeekBadge() {
+  const now=new Date(),day=now.getDay(),diff=now.getDate()-day+(day===0?-6:1);
+  const mon=new Date(now.setDate(diff)),sun=new Date(mon);sun.setDate(mon.getDate()+6);
+  const fmt=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const el=document.getElementById('week-badge');
+  if(el) el.textContent=`Week of ${fmt(mon)}–${fmt(sun)}, 2026`;
+}
+
+// ── HELPERS ───────────────────────────────────
+function handleSignup(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ You\'re in!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent=btn.textContent.includes('Notify')?'Notify Me':'Sign Me Up';btn.style.background=''},3000)}
+function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ Sent!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent='Send Message';btn.style.background=''},3000)}
+</script>
+</body>
+</html>
