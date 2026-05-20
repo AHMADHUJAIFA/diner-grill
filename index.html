@@ -91,6 +91,15 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
 .marquee-track span{font-family:'Bebas Neue';font-size:20px;letter-spacing:3px;color:var(--white);flex-shrink:0}
 .marquee-track span.dot{color:rgba(255,255,255,.4)}
 @keyframes marquee-run{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.gsap-ready .hero-chip,
+.gsap-ready .hero-title,
+.gsap-ready .hero-tagline,
+.gsap-ready .hero-btns,
+.gsap-ready #scroll-hint,
+.gsap-ready #story-eyebrow,
+.gsap-ready #story-htitle,
+.gsap-ready #story-hsub,
+.gsap-ready #story-scroll-hint{opacity:0}
 .reveal{opacity:0;transform:translateY(60px)}
 .reveal-left{opacity:0;transform:translateX(-80px)}
 .reveal-right{opacity:0;transform:translateX(80px)}
@@ -908,17 +917,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initAll() {
   gsap.registerPlugin(ScrollTrigger);
-  // Set hero elements invisible immediately so GSAP owns the state (not CSS)
-  gsap.set(['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'], {opacity:0});
-  gsap.set('.hero-chip', {y:20});
-  gsap.set('.hero-title', {y:50});
-  gsap.set('.hero-tagline', {y:30});
-  gsap.set('.hero-btns', {y:30});
-  // Same for story hero
-  gsap.set(['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'], {opacity:0});
-  gsap.set('#story-eyebrow', {y:20});
-  gsap.set('#story-htitle', {y:40});
-  gsap.set('#story-hsub', {y:30});
+  // Hero elements are visible by default — GSAP animates from invisible
+  // We add class 'gsap-ready' to body so CSS hides them ONLY when GSAP is loaded
+  document.body.classList.add('gsap-ready');
   initLenis();
   initHomeThree();
   initCursor();
@@ -957,6 +958,12 @@ function resetHomeHero() {
   gsap.set('.hero-btns', {y:30});
 }
 function playHomeHeroAnim() {
+  // Set invisible then animate — GSAP is guaranteed loaded by this point
+  gsap.set('.hero-chip',    {opacity:0, y:20});
+  gsap.set('.hero-title',   {opacity:0, y:50});
+  gsap.set('.hero-tagline', {opacity:0, y:30});
+  gsap.set('.hero-btns',    {opacity:0, y:30});
+  gsap.set('#scroll-hint',  {opacity:0});
   const tl = gsap.timeline({delay: 0.05});
   tl.to('.hero-chip',    {opacity:1, y:0, duration:.65, ease:'power3.out'})
     .to('.hero-title',   {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
@@ -991,6 +998,10 @@ function resetStoryHero() {
   gsap.set('#story-hsub',    {y:30});
 }
 function playStoryHeroAnim() {
+  gsap.set('#story-eyebrow', {opacity:0, y:20});
+  gsap.set('#story-htitle',  {opacity:0, y:40});
+  gsap.set('#story-hsub',    {opacity:0, y:30});
+  gsap.set('#story-scroll-hint', {opacity:0});
   const tl = gsap.timeline({delay:0.05});
   tl.to('#story-eyebrow', {opacity:1, y:0, duration:.65, ease:'power3.out'})
     .to('#story-htitle',  {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
