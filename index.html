@@ -104,12 +104,12 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
 .hero-bg{position:absolute;inset:0;z-index:1;background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1800&q=80');background-size:cover;background-position:center;filter:brightness(.12) saturate(.5)}
 .hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(135deg,rgba(212,146,42,.12) 0%,rgba(253,246,236,.86) 100%)}
 .hero-content{position:relative;z-index:3;text-align:center;max-width:960px;padding:0 32px}
-.hero-chip{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.85);border:1px solid rgba(212,146,42,.4);padding:8px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:32px;box-shadow:0 4px 24px rgba(212,146,42,.15);opacity:0;transform:translateY(20px)}
-.hero-title{font-family:'Playfair Display';font-size:clamp(64px,12vw,140px);font-weight:900;line-height:.9;color:var(--charcoal);margin-bottom:10px;opacity:0;transform:translateY(50px)}
+.hero-chip{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.85);border:1px solid rgba(212,146,42,.4);padding:8px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:32px;box-shadow:0 4px 24px rgba(212,146,42,.15);}
+.hero-title{font-family:'Playfair Display';font-size:clamp(64px,12vw,140px);font-weight:900;line-height:.9;color:var(--charcoal);margin-bottom:10px;}
 .hero-title .gold{color:var(--gold)}
-.hero-tagline{font-family:'Bebas Neue';font-size:clamp(16px,2.4vw,26px);letter-spacing:6px;color:var(--mid);margin-bottom:40px;opacity:0;transform:translateY(30px)}
-.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(30px)}
-.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0}
+.hero-tagline{font-family:'Bebas Neue';font-size:clamp(16px,2.4vw,26px);letter-spacing:6px;color:var(--mid);margin-bottom:40px;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;}
 .scroll-hint span{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700}
 .scroll-line{width:1px;height:64px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scroll-pulse 2s infinite}
 @keyframes scroll-pulse{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.5);opacity:.4}}
@@ -219,9 +219,9 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
 .story-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(253,246,236,.75) 0%,rgba(253,246,236,.3) 50%,rgba(253,246,236,.92) 100%)}
 .story-hero-year{font-family:'Bebas Neue';font-size:clamp(100px,20vw,220px);color:rgba(212,146,42,.15);line-height:1;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;letter-spacing:-4px}
 .story-hero-content{position:relative;z-index:3;text-align:center;max-width:860px;padding:80px 32px 0}
-.story-eyebrow{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;opacity:0;transform:translateY(20px)}
-.story-hero-title{font-family:'Playfair Display';font-size:clamp(44px,8vw,88px);font-weight:900;color:var(--charcoal);line-height:1.05;opacity:0;transform:translateY(40px);margin-bottom:24px}
-.story-hero-sub{font-size:17px;color:var(--mid);line-height:1.8;max-width:560px;margin:0 auto;opacity:0;transform:translateY(30px)}
+.story-eyebrow{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.story-hero-title{font-family:'Playfair Display';font-size:clamp(44px,8vw,88px);font-weight:900;color:var(--charcoal);line-height:1.05;margin-bottom:24px}
+.story-hero-sub{font-size:17px;color:var(--mid);line-height:1.8;max-width:560px;margin:0 auto;}
 #timeline{padding:120px 60px;background:var(--cream);max-width:1200px;margin:0 auto}
 .tl-header-label{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
 .tl-header-title{font-family:'Playfair Display';font-size:clamp(32px,5vw,56px);font-weight:900;color:var(--charcoal);text-align:center;margin-bottom:80px}
@@ -626,7 +626,7 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
       <h1 class="story-hero-title" id="story-htitle">Built from<br/><em>Two Streetcars.</em><br/>One Legend.</h1>
       <p class="story-hero-sub" id="story-hsub">87 years of grill smoke, bottomless coffee, and the city's most loyal regulars.</p>
     </div>
-    <div class="scroll-hint" id="story-scroll-hint" style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0"><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700">Our Story</span><div class="scroll-line"></div></div>
+    <div class="scroll-hint" id="story-scroll-hint" style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px"><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700">Our Story</span><div class="scroll-line"></div></div>
   </section>
 
   <section id="timeline" style="max-width:100%;padding:120px 60px">
@@ -842,68 +842,102 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
 // ── PAGE NAVIGATION ──────────────────────────
 const PAGES = ['home','menu','story','specials','contact','order'];
 let currentPage = 'home';
-let threeInstances = {};
 let lenisInstance = null;
 
 function showPage(page) {
-  if (currentPage === page) return;
+  if (currentPage === page) { window.scrollTo({top:0,behavior:'smooth'}); return; }
   const prev = document.getElementById('page-' + currentPage);
   const next = document.getElementById('page-' + page);
-  gsap.to(prev, {opacity: 0, y: -30, duration: 0.35, ease: 'power2.in', onComplete: () => {
+
+  gsap.to(prev, {opacity:0, y:-24, duration:0.3, ease:'power2.in', onComplete: () => {
     prev.classList.remove('active');
-    prev.style.opacity = '';
-    prev.style.transform = '';
+    prev.style.cssText = '';
     next.classList.add('active');
-    gsap.fromTo(next, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 0.5, ease: 'power3.out'});
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    initPageAnimations(page);
-    if (page === 'order') initOrderThree();
-    if (page === 'story') initStoryThree();
-    updateClock();
+    window.scrollTo({top:0});
+
+    // Always reset hero elements so they re-animate on every Home visit
+    if (page === 'home') resetHomeHero();
+    if (page === 'story') resetStoryHero();
+
+    // Small rAF delay so display:block is painted before animating
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        gsap.fromTo(next, {opacity:0, y:20}, {opacity:1, y:0, duration:0.45, ease:'power3.out'});
+        if (page === 'home') playHomeHeroAnim();
+        if (page === 'story') { initStoryThree(); playStoryHeroAnim(); }
+        if (page === 'order') initOrderThree();
+        ScrollTrigger.refresh();
+        initRevealObserver(next);
+        updateClock();
+      });
+    });
   }});
+
   currentPage = page;
   PAGES.forEach(p => {
     const el = document.getElementById('nav-' + p);
     if (el) el.classList.toggle('active-nav', p === page);
   });
   document.getElementById('sticky-order').classList.toggle('visible', page !== 'order' && page !== 'home');
-  if (page === 'order') document.getElementById('cart-mini').classList.toggle('visible', cart > 0);
+  if (page !== 'order') document.getElementById('cart-mini').classList.remove('visible');
 }
 
-// ── LOADER ───────────────────────────────────
-window.addEventListener('load', () => {
-  const bar = document.getElementById('lbar'); let w = 0;
+// ── LOADER — fires on DOMContentLoaded, max 3s cap ──
+document.addEventListener('DOMContentLoaded', () => {
+  const bar = document.getElementById('lbar');
+  let w = 0;
+  const MAX_WAIT = 3000; // never wait more than 3s
+  const start = Date.now();
+
   const iv = setInterval(() => {
-    w = Math.min(w + Math.random() * 14 + 6, 100);
+    const elapsed = Date.now() - start;
+    const speed = elapsed > 1500 ? 18 : (Math.random() * 14 + 6);
+    w = Math.min(w + speed, elapsed > MAX_WAIT ? 100 : 99);
     bar.style.width = w + '%';
-    if (w >= 100) { clearInterval(iv); setTimeout(() => {
-      gsap.to('#loader', {opacity: 0, duration: 0.6, onComplete: () => {
-        document.getElementById('loader').style.display = 'none';
-        initAll();
-      }});
-    }, 200); }
-  }, 55);
+    if (w >= 100) {
+      clearInterval(iv);
+      setTimeout(() => {
+        gsap.to('#loader', {opacity:0, duration:0.5, onComplete: () => {
+          document.getElementById('loader').style.display = 'none';
+          initAll();
+        }});
+      }, 150);
+    }
+  }, 45);
 });
 
 function initAll() {
   gsap.registerPlugin(ScrollTrigger);
+  // Set hero elements invisible immediately so GSAP owns the state (not CSS)
+  gsap.set(['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'], {opacity:0});
+  gsap.set('.hero-chip', {y:20});
+  gsap.set('.hero-title', {y:50});
+  gsap.set('.hero-tagline', {y:30});
+  gsap.set('.hero-btns', {y:30});
+  // Same for story hero
+  gsap.set(['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'], {opacity:0});
+  gsap.set('#story-eyebrow', {y:20});
+  gsap.set('#story-htitle', {y:40});
+  gsap.set('#story-hsub', {y:30});
   initLenis();
   initHomeThree();
   initCursor();
-  initPageAnimations('home');
-  initHomeHeroAnim();
   buildMenuGrid();
   buildPopularGrid();
   updateClock(); setInterval(updateClock, 1000);
   setWeekBadge();
   window.addEventListener('scroll', onScroll);
+
+  // Animate home hero immediately — no waiting
+  playHomeHeroAnim();
+  // Set up reveal observers for the home page
+  initRevealObserver(document.getElementById('page-home'));
 }
 
 function onScroll() {
-  const s = window.scrollY;
-  document.getElementById('navbar').classList.toggle('scrolled', s > 60);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
   if (currentPage === 'home') {
-    document.getElementById('sticky-order').classList.toggle('visible', s > window.innerHeight * 0.6);
+    document.getElementById('sticky-order').classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
   }
 }
 
@@ -914,37 +948,127 @@ function initLenis() {
   gsap.ticker.lagSmoothing(0);
 }
 
+// ── HOME HERO — reset + play separately ───────
+function resetHomeHero() {
+  gsap.set(['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'], {opacity:0, y:0, clearProps:'transform'});
+  gsap.set('.hero-chip', {y:20});
+  gsap.set('.hero-title', {y:50});
+  gsap.set('.hero-tagline', {y:30});
+  gsap.set('.hero-btns', {y:30});
+}
+function playHomeHeroAnim() {
+  const tl = gsap.timeline({delay: 0.05});
+  tl.to('.hero-chip',    {opacity:1, y:0, duration:.65, ease:'power3.out'})
+    .to('.hero-title',   {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
+    .to('.hero-tagline', {opacity:1, y:0, duration:.65, ease:'power3.out'}, '-=.5')
+    .to('.hero-btns',    {opacity:1, y:0, duration:.55, ease:'power3.out'}, '-=.4')
+    .to('#scroll-hint',  {opacity:1, duration:.4},                          '-=.2');
+
+  // Parallax — kill old ones first to avoid stacking
+  ScrollTrigger.getAll().filter(st => st.vars && st.vars._id === 'hero-parallax').forEach(st => st.kill());
+  gsap.to('.hero-bg', {yPercent:35, ease:'none',
+    scrollTrigger:{trigger:'#home-hero', start:'top top', end:'bottom top', scrub:1, id:'hero-parallax'}});
+  gsap.to('.img-main', {y:-60, ease:'none',
+    scrollTrigger:{trigger:'#story-wrap', start:'top bottom', end:'bottom top', scrub:1.5}});
+  gsap.to('.img-inset', {y:40, ease:'none',
+    scrollTrigger:{trigger:'#story-wrap', start:'top bottom', end:'bottom top', scrub:2}});
+
+  // Counter animations
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count), obj = {val: 0};
+    ScrollTrigger.create({
+      trigger: el, start:'top 90%', once: true,
+      onEnter: () => gsap.to(obj, {val:target, duration:2.2, ease:'power2.out', onUpdate:()=>{ el.textContent = Math.round(obj.val).toLocaleString(); }})
+    });
+  });
+}
+
+// ── STORY HERO — reset + play ─────────────────
+function resetStoryHero() {
+  gsap.set(['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'], {opacity:0, y:0, clearProps:'transform'});
+  gsap.set('#story-eyebrow', {y:20});
+  gsap.set('#story-htitle',  {y:40});
+  gsap.set('#story-hsub',    {y:30});
+}
+function playStoryHeroAnim() {
+  const tl = gsap.timeline({delay:0.05});
+  tl.to('#story-eyebrow', {opacity:1, y:0, duration:.65, ease:'power3.out'})
+    .to('#story-htitle',  {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
+    .to('#story-hsub',    {opacity:1, y:0, duration:.65, ease:'power3.out'}, '-=.5')
+    .to('#story-scroll-hint', {opacity:1, duration:.4}, '-=.2');
+  gsap.to('.story-hero-year', {y:-100, ease:'none',
+    scrollTrigger:{trigger:'.story-hero', start:'top top', end:'bottom top', scrub:1.5}});
+}
+
+// ── REVEAL — IntersectionObserver (no _revealed caching) ──
+function initRevealObserver(container) {
+  const targets = container.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+  // Reset them all first so they're invisible and ready
+  targets.forEach(el => {
+    if (el.classList.contains('reveal'))        gsap.set(el, {opacity:0, y:60});
+    if (el.classList.contains('reveal-left'))   gsap.set(el, {opacity:0, x:-80});
+    if (el.classList.contains('reveal-right'))  gsap.set(el, {opacity:0, x:80});
+    if (el.classList.contains('reveal-scale'))  gsap.set(el, {opacity:0, scale:.88});
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const delay = (idx % 4) * 0.07;
+      if (el.classList.contains('reveal'))        gsap.to(el, {opacity:1, y:0,    duration:.75, ease:'power3.out', delay});
+      if (el.classList.contains('reveal-left'))   gsap.to(el, {opacity:1, x:0,    duration:.85, ease:'power3.out', delay});
+      if (el.classList.contains('reveal-right'))  gsap.to(el, {opacity:1, x:0,    duration:.85, ease:'power3.out', delay});
+      if (el.classList.contains('reveal-scale'))  gsap.to(el, {opacity:1, scale:1, duration:.7,  ease:'back.out(1.4)', delay});
+      obs.unobserve(el);
+    });
+  }, {threshold: 0.1, rootMargin: '0px 0px -40px 0px'});
+
+  targets.forEach(el => obs.observe(el));
+
+  // Card 3D tilt — attach once
+  container.querySelectorAll('.menu-card,.review-card,.info-card,.special-card,.pop-item,.guar-item,.order-card').forEach(card => {
+    if (card._tilt) return; card._tilt = true;
+    card.addEventListener('mousemove', e => {
+      const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      gsap.to(card, {rotateY:x*14, rotateX:-y*14, transformPerspective:800, duration:.3, ease:'power2.out'});
+    });
+    card.addEventListener('mouseleave', () => gsap.to(card, {rotateY:0, rotateX:0, duration:.5, ease:'power3.out'}));
+  });
+}
+
 // ── HOME THREE.JS ─────────────────────────────
 function initHomeThree() {
   const canvas = document.getElementById('three-canvas');
-  const renderer = new THREE.WebGLRenderer({canvas, alpha: true});
+  if (canvas._init) return; canvas._init = true;
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:false});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, .1, 100);
-  camera.position.z = 4;
-  const shapes = [];
-  [[new THREE.TorusGeometry(1.2,.35,8,32), 0xd4922a],[new THREE.OctahedronGeometry(1.5,0), 0xf2b84b],[new THREE.TorusKnotGeometry(.8,.2,64,8), 0xd4922a]].forEach(([geo,col],i) => {
-    const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({color:col,transparent:true,opacity:.15,wireframe:true}));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, .1, 100);
+  camera.position.z=4;
+  const shapes=[];
+  [[new THREE.TorusGeometry(1.2,.35,8,32),0xd4922a],[new THREE.OctahedronGeometry(1.5,0),0xf2b84b],[new THREE.TorusKnotGeometry(.8,.2,64,8),0xd4922a]].forEach(([geo,col],i) => {
+    const m=new THREE.Mesh(geo, new THREE.MeshPhongMaterial({color:col,transparent:true,opacity:.15,wireframe:true}));
     m.position.set((i-1)*3.5,(Math.random()-.5)*2,0); scene.add(m); shapes.push(m);
   });
-  const pGeo = new THREE.BufferGeometry();
-  const pos = new Float32Array(1500*3); for(let i=0;i<1500*3;i++) pos[i]=(Math.random()-.5)*20;
+  const pGeo=new THREE.BufferGeometry();
+  const pos=new Float32Array(1200*3); for(let i=0;i<1200*3;i++) pos[i]=(Math.random()-.5)*20;
   pGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({color:0xd4922a,size:.022,transparent:true,opacity:.7})));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({color:0xd4922a,size:.022,transparent:true,opacity:.6})));
   scene.add(new THREE.DirectionalLight(0xf2b84b,1.5)); scene.add(new THREE.AmbientLight(0xfdf6ec,.5));
   let t=0, mx=0, my=0;
-  document.addEventListener('mousemove', e => {mx=(e.clientX/window.innerWidth-.5)*2; my=(e.clientY/window.innerHeight-.5)*2});
-  (function loop(){requestAnimationFrame(loop);t+=.008;shapes.forEach((s,i)=>{s.rotation.x=t*(i+.5)*.4;s.rotation.y=t*(i+.3)*.5;s.position.y=Math.sin(t*(i+1)*.3)*.8});camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
-  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+  document.addEventListener('mousemove', e => { mx=(e.clientX/window.innerWidth-.5)*2; my=(e.clientY/window.innerHeight-.5)*2; });
+  (function loop(){requestAnimationFrame(loop);t+=.008;shapes.forEach((s,i)=>{s.rotation.x=t*(i+.5)*.4;s.rotation.y=t*(i+.3)*.5;s.position.y=Math.sin(t*(i+1)*.3)*.8});camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera);})();
+  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
 }
 
 // ── STORY THREE.JS ────────────────────────────
 function initStoryThree() {
-  const canvas = document.getElementById('story-canvas');
-  if (canvas._init) return; canvas._init = true;
-  const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const canvas=document.getElementById('story-canvas');
+  if (canvas._init) return; canvas._init=true;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setSize(window.innerWidth,window.innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,.1,100);
   camera.position.z=5;
   const shapes=[];
@@ -952,113 +1076,56 @@ function initStoryThree() {
     const m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:i===1?0xc0392b:0xd4922a,transparent:true,opacity:.12,wireframe:true}));
     m.position.set((i-1)*4.5,0,-2); scene.add(m); shapes.push(m);
   });
-  const pGeo=new THREE.BufferGeometry(); const pos=new Float32Array(2000*3);
-  for(let i=0;i<2000*3;i++) pos[i]=(Math.random()-.5)*22;
+  const pGeo=new THREE.BufferGeometry(); const pos=new Float32Array(1500*3);
+  for(let i=0;i<1500*3;i++) pos[i]=(Math.random()-.5)*22;
   pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
   scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xd4922a,size:.018,transparent:true,opacity:.5})));
   scene.add(new THREE.DirectionalLight(0xf2b84b,2)); scene.add(new THREE.AmbientLight(0xfdf6ec,.4));
   let t=0,mx=0,my=0;
-  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2});
-  (function loop(){requestAnimationFrame(loop);t+=.007;shapes.forEach((s,i)=>{s.rotation.x=t*.4*(i+1);s.rotation.y=t*.3*(i+1);s.position.y=Math.sin(t*(i+.5)*.4)*.8});camera.position.x+=(mx*.4-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
-  // Story hero entrance
-  const tl=gsap.timeline({delay:.1});
-  tl.to('#story-eyebrow',{opacity:1,y:0,duration:.7,ease:'power3.out'}).to('#story-htitle',{opacity:1,y:0,duration:.9,ease:'power3.out'},'-=.4').to('#story-hsub',{opacity:1,y:0,duration:.7,ease:'power3.out'},'-=.5').to('#story-scroll-hint',{opacity:1,duration:.4},'-=.2');
-  gsap.to('.story-hero-year',{y:-100,ease:'none',scrollTrigger:{trigger:'.story-hero',start:'top top',end:'bottom top',scrub:1.5}});
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2;});
+  (function loop(){requestAnimationFrame(loop);t+=.007;shapes.forEach((s,i)=>{s.rotation.x=t*.4*(i+1);s.rotation.y=t*.3*(i+1);s.position.y=Math.sin(t*(i+.5)*.4)*.8;});camera.position.x+=(mx*.4-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera);})();
 }
 
 // ── ORDER THREE.JS ────────────────────────────
 function initOrderThree() {
-  const canvas = document.getElementById('order-canvas');
-  if (canvas._init) return; canvas._init = true;
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true});
-  renderer.setSize(window.innerWidth,window.innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,.1,100);
+  const canvas=document.getElementById('order-canvas');
+  if (canvas._init) return; canvas._init=true;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setSize(window.innerWidth,window.innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,.1,100);
   camera.position.z=5;
   const shapes=[];
   [[new THREE.TorusGeometry(2,.4,8,40),0xd4922a],[new THREE.TorusGeometry(1.4,.35,8,32),0xc0392b],[new THREE.TorusGeometry(1,.3,8,24),0xf2b84b]].forEach(([geo,col],i)=>{
     const m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:col,transparent:true,opacity:.12+(i*.02),wireframe:true}));
     m.position.y=(i-1)*.6; scene.add(m); shapes.push(m);
   });
-  for(let i=0;i<8;i++){const m=new THREE.Mesh(new THREE.BoxGeometry(.3,.3,.3),new THREE.MeshPhongMaterial({color:0xd4922a,transparent:true,opacity:.15}));m.position.set((Math.random()-.5)*12,(Math.random()-.5)*6,-2);m.userData={oy:m.position.y,speed:Math.random()*.5+.3,phase:Math.random()*Math.PI*2};scene.add(m);shapes.push(m);}
-  const pGeo=new THREE.BufferGeometry();const pos=new Float32Array(2000*3);for(let i=0;i<2000*3;i++)pos[i]=(Math.random()-.5)*22;
+  for(let i=0;i<6;i++){const m=new THREE.Mesh(new THREE.BoxGeometry(.3,.3,.3),new THREE.MeshPhongMaterial({color:0xd4922a,transparent:true,opacity:.15}));m.position.set((Math.random()-.5)*12,(Math.random()-.5)*6,-2);m.userData={oy:m.position.y,speed:Math.random()*.5+.3,phase:Math.random()*Math.PI*2};scene.add(m);shapes.push(m);}
+  const pGeo=new THREE.BufferGeometry(); const pos=new Float32Array(1500*3);
+  for(let i=0;i<1500*3;i++) pos[i]=(Math.random()-.5)*22;
   pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
   scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xd4922a,size:.02,transparent:true,opacity:.6})));
-  scene.add(new THREE.DirectionalLight(0xf2b84b,2));scene.add(new THREE.AmbientLight(0xfdf6ec,.5));
+  scene.add(new THREE.DirectionalLight(0xf2b84b,2)); scene.add(new THREE.AmbientLight(0xfdf6ec,.5));
   let t=0,mx=0,my=0;
-  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2});
-  (function loop(){requestAnimationFrame(loop);t+=.01;shapes[0].rotation.x=t*.4;shapes[0].rotation.z=t*.2;shapes[1].rotation.y=t*.5;shapes[1].rotation.x=t*.3;shapes[2].rotation.x=t*.6;shapes[2].rotation.z=-t*.3;for(let i=3;i<shapes.length;i++){const u=shapes[i].userData;shapes[i].position.y=u.oy+Math.sin(t*u.speed+u.phase)*.4;shapes[i].rotation.x=t*u.speed;shapes[i].rotation.y=t*u.speed*.8;}camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera)})();
-}
-
-// ── HOME HERO ANIM ────────────────────────────
-function initHomeHeroAnim() {
-  const tl = gsap.timeline({delay:.1});
-  tl.to('.hero-chip',{opacity:1,y:0,duration:.7,ease:'power3.out'})
-    .to('.hero-title',{opacity:1,y:0,duration:.9,ease:'power3.out'},'-=.4')
-    .to('.hero-tagline',{opacity:1,y:0,duration:.7,ease:'power3.out'},'-=.5')
-    .to('.hero-btns',{opacity:1,y:0,duration:.6,ease:'power3.out'},'-=.4')
-    .to('#scroll-hint',{opacity:1,duration:.4},'-=.2');
-  gsap.to('.hero-bg',{yPercent:35,ease:'none',scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
-  gsap.to('.img-main',{y:-60,ease:'none',scrollTrigger:{trigger:'#story-wrap',start:'top bottom',end:'bottom top',scrub:1.5}});
-  gsap.to('.img-inset',{y:40,ease:'none',scrollTrigger:{trigger:'#story-wrap',start:'top bottom',end:'bottom top',scrub:2}});
-  // Counter animations
-  document.querySelectorAll('[data-count]').forEach(el => {
-    const target = parseInt(el.dataset.count), obj = {val:0};
-    gsap.to(obj,{val:target,duration:2.5,ease:'power2.out',onUpdate:()=>{el.textContent=Math.round(obj.val).toLocaleString()},scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none none'}});
-  });
-  // Gallery 3D tilt
-  document.querySelectorAll('.gal-img').forEach(img => {
-    img.addEventListener('mousemove',e=>{const r=img.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(img,{rotateY:x*18,rotateX:-y*18,duration:.4,ease:'power2.out',transformPerspective:800})});
-    img.addEventListener('mouseleave',()=>gsap.to(img,{rotateY:0,rotateX:0,duration:.6,ease:'power3.out'}));
-  });
-}
-
-// ── PAGE ANIMATIONS (scroll reveals) ─────────
-function initPageAnimations(page) {
-  setTimeout(() => {
-    const section = document.getElementById('page-' + page);
-    if (!section) return;
-    section.querySelectorAll('.reveal').forEach((el,i) => {
-      if (el._revealed) return; el._revealed = true;
-      gsap.fromTo(el,{opacity:0,y:60},{opacity:1,y:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},delay:(i%4)*.07});
-    });
-    section.querySelectorAll('.reveal-left').forEach(el => {
-      if (el._revealed) return; el._revealed = true;
-      gsap.fromTo(el,{opacity:0,x:-80},{opacity:1,x:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
-    });
-    section.querySelectorAll('.reveal-right').forEach(el => {
-      if (el._revealed) return; el._revealed = true;
-      gsap.fromTo(el,{opacity:0,x:80},{opacity:1,x:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
-    });
-    section.querySelectorAll('.reveal-scale').forEach(el => {
-      if (el._revealed) return; el._revealed = true;
-      gsap.fromTo(el,{opacity:0,scale:.88},{opacity:1,scale:1,duration:.75,ease:'back.out(1.4)',scrollTrigger:{trigger:el,start:'top 86%',toggleActions:'play none none none'}});
-    });
-    // Card 3D tilt
-    section.querySelectorAll('.menu-card,.review-card,.info-card,.special-card,.pop-item,.guar-item,.order-card').forEach(card => {
-      if (card._tilt) return; card._tilt = true;
-      card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*14,rotateX:-y*14,transformPerspective:800,duration:.3,ease:'power2.out'})});
-      card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.5,ease:'power3.out'}));
-    });
-    ScrollTrigger.refresh();
-  }, 100);
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=(e.clientY/window.innerHeight-.5)*2;});
+  (function loop(){requestAnimationFrame(loop);t+=.01;shapes[0].rotation.x=t*.4;shapes[0].rotation.z=t*.2;shapes[1].rotation.y=t*.5;shapes[1].rotation.x=t*.3;shapes[2].rotation.x=t*.6;shapes[2].rotation.z=-t*.3;for(let i=3;i<shapes.length;i++){const u=shapes[i].userData;shapes[i].position.y=u.oy+Math.sin(t*u.speed+u.phase)*.4;shapes[i].rotation.x=t*u.speed;shapes[i].rotation.y=t*u.speed*.8;}camera.position.x+=(mx*.5-camera.position.x)*.04;camera.position.y+=(-my*.3-camera.position.y)*.04;renderer.render(scene,camera);})();
 }
 
 // ── CURSOR ────────────────────────────────────
 function initCursor() {
   const cur=document.getElementById('cursor'), ring=document.getElementById('cursor-ring');
   let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;gsap.to(cur,{x:mx,y:my,duration:.08})});
-  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx-22}px,${ry-22}px)`;requestAnimationFrame(loop)})();
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;gsap.to(cur,{x:mx,y:my,duration:.08});});
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx-22}px,${ry-22}px)`;requestAnimationFrame(loop);})();
   document.addEventListener('mouseover',e=>{
-    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:3,duration:.2});gsap.to(ring,{scale:1.6,opacity:.25,duration:.2})}
+    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:3,duration:.2});gsap.to(ring,{scale:1.6,opacity:.25,duration:.2});}
   });
   document.addEventListener('mouseout',e=>{
-    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:1,duration:.2});gsap.to(ring,{scale:1,opacity:.4,duration:.2})}
+    if(e.target.matches('a,button,.menu-card,.gal-img,.special-card,.pop-item,.info-card,.social-big,.order-card,.guar-item,.review-card')){gsap.to(cur,{scale:1,duration:.2});gsap.to(ring,{scale:1,opacity:.4,duration:.2});}
   });
 }
 
 // ── MENU DATA ─────────────────────────────────
-const ALL_MENU = [
+const ALL_MENU=[
   {cat:'breakfast',name:'Bacon & Eggs',price:'$9.75',desc:'Thick-cut bacon with two eggs any style. Served with golden toast.',img:'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=600&q=75'},
   {cat:'breakfast',name:'Baked Ham & Eggs',price:'$10.35',desc:'Classic baked ham with two eggs your way. Hashbrowns included.',img:'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=75'},
   {cat:'breakfast',name:'Pork Chop & Eggs',price:'$12.50',desc:'A full pork chop with two eggs. The diner heavyweight.',img:'https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=75'},
@@ -1072,10 +1139,10 @@ const ALL_MENU = [
   {cat:'signatures',name:'Breakfast Burrito',price:'$9.50',desc:'Eggs, bacon, peppers, onions, cheese in griddled tortilla.',img:'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=75'},
   {cat:'signatures',name:'California Burrito',price:'Market',desc:'Steak, eggs, guacamole, pico de gallo, sour cream.',img:'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=600&q=75'},
   {cat:'sandwiches',name:'Patty Melt',price:'$8.45',desc:'Beef patty, caramelized onions, Swiss on griddled rye.',img:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=75'},
-  {cat:'sandwiches',name:'Double Bacon Cheeseburger',price:'Market',desc:'Double beef, double bacon, double cheese. No apologies.',img:'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=75'},
+  {cat:'sandwiches',name:'Double Bacon Cheeseburger',price:'Market',desc:'Double beef, double bacon, double cheese.',img:'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=75'},
   {cat:'sandwiches',name:'Ribeye Sandwich',price:'Market',desc:'Thinly sliced ribeye on griddled bread with onions and peppers.',img:'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=600&q=75'},
 ];
-const DRINKS = [
+const DRINKS=[
   {name:'Coffee (Bottomless)',price:'$3.50',desc:'Fresh-brewed diner coffee. Refills until you say stop.'},
   {name:'Orange Juice',price:'$3.25',desc:'Fresh-squeezed or carton — ask your server.'},
   {name:'Hot Tea',price:'$2.75',desc:'Selection of teas with hot water.'},
@@ -1084,24 +1151,21 @@ const DRINKS = [
   {name:'Water',price:'Free',desc:'Complimentary.'},
 ];
 
-let menuFilter = 'all';
-function buildMenuGrid() {
-  renderMenuGrid('all');
-}
-function filterMenu(cat, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+function buildMenuGrid(){ renderMenuGrid('all'); }
+function filterMenu(cat,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderMenuGrid(cat);
 }
-function renderMenuGrid(cat) {
-  const grid = document.getElementById('menu-full-grid');
-  if (cat === 'drinks') {
-    grid.innerHTML = `<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:12px;max-width:640px">${DRINKS.map(d=>`<div class="no-img-card"><div><div class="no-img-name">${d.name}</div><div class="no-img-desc">${d.desc}</div></div><div class="no-img-price">${d.price}</div></div>`).join('')}</div>`;
+function renderMenuGrid(cat){
+  const grid=document.getElementById('menu-full-grid');
+  if(cat==='drinks'){
+    grid.innerHTML=`<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:12px;max-width:640px">${DRINKS.map(d=>`<div class="no-img-card"><div><div class="no-img-name">${d.name}</div><div class="no-img-desc">${d.desc}</div></div><div class="no-img-price">${d.price}</div></div>`).join('')}</div>`;
   } else {
-    const items = cat === 'all' ? ALL_MENU : ALL_MENU.filter(i => i.cat === cat);
-    grid.innerHTML = items.map(item => `
+    const items=cat==='all'?ALL_MENU:ALL_MENU.filter(i=>i.cat===cat);
+    grid.innerHTML=items.map(item=>`
       <div class="menu-card">
-        <div style="overflow:hidden"><img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy"/></div>
+        <div style="overflow:hidden"><img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy" decoding="async"/></div>
         <div class="menu-card-body">
           <div class="menu-card-name">${item.name}${item.tag?`<span class="feat-tag">${item.tag}</span>`:''}</div>
           <div class="menu-card-desc">${item.desc}</div>
@@ -1109,16 +1173,15 @@ function renderMenuGrid(cat) {
         </div>
       </div>`).join('');
   }
-  // Animate newly rendered cards
-  grid.querySelectorAll('.menu-card').forEach((card,i) => {
-    gsap.fromTo(card,{opacity:0,y:40,scale:.95},{opacity:1,y:0,scale:1,duration:.5,ease:'power3.out',delay:i*.05});
-    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*14,rotateX:-y*14,transformPerspective:800,duration:.3,ease:'power2.out'})});
+  grid.querySelectorAll('.menu-card').forEach((card,i)=>{
+    gsap.fromTo(card,{opacity:0,y:36,scale:.96},{opacity:1,y:0,scale:1,duration:.45,ease:'power3.out',delay:i*.04});
+    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*14,rotateX:-y*14,transformPerspective:800,duration:.3,ease:'power2.out'});});
     card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.5,ease:'power3.out'}));
   });
 }
 
-// ── POPULAR ITEMS FOR ORDER ───────────────────
-const POPULAR_ITEMS = [
+// ── POPULAR ITEMS (ORDER PAGE) ────────────────
+const POPULAR_ITEMS=[
   {name:'The Slinger',price:'$15.50',img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=75'},
   {name:'Pork Chop & Eggs',price:'$12.50',img:'https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=500&q=75'},
   {name:'Chilaquiles',price:'$11.50',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500&q=75'},
@@ -1128,38 +1191,38 @@ const POPULAR_ITEMS = [
   {name:'Corned Beef Hash',price:'Market',img:'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=500&q=75'},
   {name:'Double Bacon Cheeseburger',price:'Market',img:'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&q=75'},
 ];
-let cart = 0;
-function buildPopularGrid() {
-  document.getElementById('popular-grid').innerHTML = POPULAR_ITEMS.map(item => `
+let cart=0;
+function buildPopularGrid(){
+  document.getElementById('popular-grid').innerHTML=POPULAR_ITEMS.map(item=>`
     <div class="pop-item" onclick="addToCart('${item.name}')">
-      <div style="overflow:hidden"><img class="pop-item-img" src="${item.img}" alt="${item.name}" loading="lazy"/></div>
+      <div style="overflow:hidden"><img class="pop-item-img" src="${item.img}" alt="${item.name}" loading="lazy" decoding="async"/></div>
       <div class="pop-item-body">
         <div><div class="pop-item-name">${item.name}</div><div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:3px">${item.price}</div></div>
         <button class="add-btn" onclick="event.stopPropagation();addToCart('${item.name}')">+</button>
       </div>
     </div>`).join('');
 }
-function addToCart(name) {
+function addToCart(name){
   cart++;
-  document.getElementById('cart-count').textContent = cart;
+  document.getElementById('cart-count').textContent=cart;
   document.getElementById('cart-mini').classList.add('visible');
   gsap.fromTo('#cart-count',{scale:1},{scale:1.5,duration:.2,yoyo:true,repeat:1,ease:'back.out(2)'});
 }
-function viewCart() {
+function viewCart(){
   if(cart>0) alert(`You have ${cart} item${cart>1?'s':''} in your order.\n\nConnect a POS system like Toast or Square for live checkout.\nPickup ready in 15–20 minutes!`);
 }
 
 // ── CLOCK ─────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  const h = document.getElementById('ot-h'), m = document.getElementById('ot-m'), s = document.getElementById('ot-s');
-  if(h) h.textContent = String(now.getHours()).padStart(2,'0');
-  if(m) m.textContent = String(now.getMinutes()).padStart(2,'0');
-  if(s) s.textContent = String(now.getSeconds()).padStart(2,'0');
+function updateClock(){
+  const now=new Date();
+  const h=document.getElementById('ot-h'),m=document.getElementById('ot-m'),s=document.getElementById('ot-s');
+  if(h) h.textContent=String(now.getHours()).padStart(2,'0');
+  if(m) m.textContent=String(now.getMinutes()).padStart(2,'0');
+  if(s) s.textContent=String(now.getSeconds()).padStart(2,'0');
 }
 
 // ── WEEK BADGE ────────────────────────────────
-function setWeekBadge() {
+function setWeekBadge(){
   const now=new Date(),day=now.getDay(),diff=now.getDate()-day+(day===0?-6:1);
   const mon=new Date(now.setDate(diff)),sun=new Date(mon);sun.setDate(mon.getDate()+6);
   const fmt=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
@@ -1167,9 +1230,9 @@ function setWeekBadge() {
   if(el) el.textContent=`Week of ${fmt(mon)}–${fmt(sun)}, 2026`;
 }
 
-// ── HELPERS ───────────────────────────────────
-function handleSignup(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ You\'re in!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent=btn.textContent.includes('Notify')?'Notify Me':'Sign Me Up';btn.style.background=''},3000)}
-function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ Sent!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent='Send Message';btn.style.background=''},3000)}
+// ── FORM HANDLERS ─────────────────────────────
+function handleSignup(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ You\'re in!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent=btn.textContent.includes('Notify')?'Notify Me':'Sign Me Up';btn.style.background='';},3000);}
+function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button');btn.textContent='✓ Sent!';btn.style.background='#27AE60';setTimeout(()=>{btn.textContent='Send Message';btn.style.background='';},3000);}
 </script>
 </body>
 </html>
