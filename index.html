@@ -91,15 +91,6 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
 .marquee-track span{font-family:'Bebas Neue';font-size:20px;letter-spacing:3px;color:var(--white);flex-shrink:0}
 .marquee-track span.dot{color:rgba(255,255,255,.4)}
 @keyframes marquee-run{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.gsap-ready .hero-chip,
-.gsap-ready .hero-title,
-.gsap-ready .hero-tagline,
-.gsap-ready .hero-btns,
-.gsap-ready #scroll-hint,
-.gsap-ready #story-eyebrow,
-.gsap-ready #story-htitle,
-.gsap-ready #story-hsub,
-.gsap-ready #story-scroll-hint{opacity:0}
 .reveal{opacity:0;transform:translateY(60px)}
 .reveal-left{opacity:0;transform:translateX(-80px)}
 .reveal-right{opacity:0;transform:translateX(80px)}
@@ -476,15 +467,15 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-chip"><span class="open-dot"></span> Open Right Now · Irving Park, Chicago</div>
-      <h1 class="hero-title">Diner<br/><span class="gold">Grill</span></h1>
-      <div class="hero-tagline">Open 24 Hours &nbsp;·&nbsp; Built in 1937 &nbsp;·&nbsp; Rebuilt in 2018</div>
-      <div class="hero-btns">
+      <div class="hero-chip" style="opacity:0;transform:translateY(20px)"><span class="open-dot"></span> Open Right Now · Irving Park, Chicago</div>
+      <h1 class="hero-title" style="opacity:0;transform:translateY(50px)">Diner<br/><span class="gold">Grill</span></h1>
+      <div class="hero-tagline" style="opacity:0;transform:translateY(30px)">Open 24 Hours &nbsp;·&nbsp; Built in 1937 &nbsp;·&nbsp; Rebuilt in 2018</div>
+      <div class="hero-btns" style="opacity:0;transform:translateY(30px)">
         <button class="btn-primary" onclick="showPage('order')">Order Online</button>
         <button class="btn-ghost" onclick="showPage('menu')">View Menu</button>
       </div>
     </div>
-    <div class="scroll-hint" id="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+    <div class="scroll-hint" id="scroll-hint" style="opacity:0"><span>Scroll</span><div class="scroll-line"></div></div>
   </section>
 
   <div id="stats">
@@ -631,11 +622,11 @@ nav.scrolled{background:rgba(253,246,236,0.96);backdrop-filter:blur(20px);box-sh
     <div class="story-hero-overlay"></div>
     <div class="story-hero-year">1937</div>
     <div class="story-hero-content">
-      <div class="story-eyebrow" id="story-eyebrow">Chicago, Illinois</div>
-      <h1 class="story-hero-title" id="story-htitle">Built from<br/><em>Two Streetcars.</em><br/>One Legend.</h1>
-      <p class="story-hero-sub" id="story-hsub">87 years of grill smoke, bottomless coffee, and the city's most loyal regulars.</p>
+      <div class="story-eyebrow" id="story-eyebrow" style="opacity:0;transform:translateY(20px)">Chicago, Illinois</div>
+      <h1 class="story-hero-title" id="story-htitle" style="opacity:0;transform:translateY(40px)">Built from<br/><em>Two Streetcars.</em><br/>One Legend.</h1>
+      <p class="story-hero-sub" id="story-hsub" style="opacity:0;transform:translateY(30px)">87 years of grill smoke, bottomless coffee, and the city's most loyal regulars.</p>
     </div>
-    <div class="scroll-hint" id="story-scroll-hint" style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px"><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700">Our Story</span><div class="scroll-line"></div></div>
+    <div class="scroll-hint" id="story-scroll-hint" style="opacity:0;position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px"><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);font-weight:700">Our Story</span><div class="scroll-line"></div></div>
   </section>
 
   <section id="timeline" style="max-width:100%;padding:120px 60px">
@@ -919,7 +910,7 @@ function initAll() {
   gsap.registerPlugin(ScrollTrigger);
   // Hero elements are visible by default — GSAP animates from invisible
   // We add class 'gsap-ready' to body so CSS hides them ONLY when GSAP is loaded
-  document.body.classList.add('gsap-ready');
+  // gsap-ready class removed — hero elements use inline opacity:0 instead
   initLenis();
   initHomeThree();
   initCursor();
@@ -951,19 +942,25 @@ function initLenis() {
 
 // ── HOME HERO — reset + play separately ───────
 function resetHomeHero() {
-  gsap.set(['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'], {opacity:0, y:0, clearProps:'transform'});
-  gsap.set('.hero-chip', {y:20});
-  gsap.set('.hero-title', {y:50});
-  gsap.set('.hero-tagline', {y:30});
-  gsap.set('.hero-btns', {y:30});
-}
-function playHomeHeroAnim() {
-  // Set invisible then animate — GSAP is guaranteed loaded by this point
+  // Reset inline styles AND GSAP state so animation plays fresh
+  const els = ['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'];
+  els.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) el.style.opacity = '0';
+  });
+  document.querySelector('.hero-chip').style.transform    = 'translateY(20px)';
+  document.querySelector('.hero-title').style.transform   = 'translateY(50px)';
+  document.querySelector('.hero-tagline').style.transform = 'translateY(30px)';
+  document.querySelector('.hero-btns').style.transform    = 'translateY(30px)';
+  gsap.set(['.hero-chip','.hero-title','.hero-tagline','.hero-btns','#scroll-hint'], {clearProps:'all'});
+  // Re-set via gsap so timeline picks up fresh
   gsap.set('.hero-chip',    {opacity:0, y:20});
   gsap.set('.hero-title',   {opacity:0, y:50});
   gsap.set('.hero-tagline', {opacity:0, y:30});
   gsap.set('.hero-btns',    {opacity:0, y:30});
   gsap.set('#scroll-hint',  {opacity:0});
+}
+function playHomeHeroAnim() {
   const tl = gsap.timeline({delay: 0.05});
   tl.to('.hero-chip',    {opacity:1, y:0, duration:.65, ease:'power3.out'})
     .to('.hero-title',   {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
@@ -992,16 +989,18 @@ function playHomeHeroAnim() {
 
 // ── STORY HERO — reset + play ─────────────────
 function resetStoryHero() {
-  gsap.set(['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'], {opacity:0, y:0, clearProps:'transform'});
-  gsap.set('#story-eyebrow', {y:20});
-  gsap.set('#story-htitle',  {y:40});
-  gsap.set('#story-hsub',    {y:30});
-}
-function playStoryHeroAnim() {
+  // Reset inline styles so animation plays fresh
+  ['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'].forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) el.style.opacity = '0';
+  });
+  gsap.set(['#story-eyebrow','#story-htitle','#story-hsub','#story-scroll-hint'], {clearProps:'all'});
   gsap.set('#story-eyebrow', {opacity:0, y:20});
   gsap.set('#story-htitle',  {opacity:0, y:40});
   gsap.set('#story-hsub',    {opacity:0, y:30});
   gsap.set('#story-scroll-hint', {opacity:0});
+}
+function playStoryHeroAnim() {
   const tl = gsap.timeline({delay:0.05});
   tl.to('#story-eyebrow', {opacity:1, y:0, duration:.65, ease:'power3.out'})
     .to('#story-htitle',  {opacity:1, y:0, duration:.85, ease:'power3.out'}, '-=.4')
